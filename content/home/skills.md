@@ -2,9 +2,9 @@
 # An instance of the Featurette widget.
 # Documentation: https://wowchemy.com/docs/page-builder/
 widget: featurette
-
+active: false
 # This file represents a page section.
-headless: true
+headless: false
 
 # Order that this section appears on the page.
 weight: 30
@@ -17,17 +17,25 @@ subtitle:
 # - For available icons, see: https://wowchemy.com/docs/page-builder/#icons
 feature:
 - description: 90%
-  icon: r-project
-  icon_pack: fab
-  name: R
+  # icon: python
+  # icon_pack: fab
+  name: Python
 - description: 100%
-  icon: chart-line
-  icon_pack: fas
-  name: Statistics
+  # icon: r-project
+  # icon_pack: fab
+  name: R
 - description: 10%
-  icon: camera-retro
-  icon_pack: fas
-  name: Photography
+  # icon: camera-retro
+  # icon_pack: fas
+  name: MATLAB
+- description: 10%
+  # icon: camera-retro
+  # icon_pack: fas
+  name: SQL
+- description: 10%
+  # icon: camera-retro
+  # icon_pack: fas
+  name: bash
 
 # Uncomment to use emoji icons.
 #- icon = ":smile:"

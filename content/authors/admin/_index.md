@@ -1,49 +1,52 @@
 ---
-bio: My research interests include distributed robotics, mobile computing and programmable
-  matter.
+# bio: 
 education:
   courses:
-  - course: PhD in Artificial Intelligence
-    institution: Stanford University
-    year: 2012
-  - course: MEng in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2009
-  - course: BSc in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2008
-email: ""
+  - course: PhD in Psycology
+    institution: University of Oregon
+    year: 2017 - Expected 2022
+  - course: Data Science Specialization
+    institution: University of Oregon
+    year: Expected 2021
+  - course: Master in Psychology
+    institution: University of Oregon
+    year: 2017 - 2018
+  - course: BS in Psychology
+    institution: Beijing Normal University
+    year: 2013 - 2017
+    
+email: yzhao17@uoregon.edu
 highlight_name: false
 interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
+- Data science
+- Machine learning
+
 organizations:
-- name: Stanford University
-  url: https://www.stanford.edu/
-role: Professor of Artificial Intelligence
+- name: Kuhl Lab of Neuroscience
+  url: https://kuhllab.com
+role: PhD Candidate
 social:
 - icon: envelope
   icon_pack: fas
-  link: /#contact
-- icon: twitter
-  icon_pack: fab
-  link: https://twitter.com/GeorgeCushen
+  link: mailto:yzhao17@uoregon.edu
+# - icon: twitter
+#   icon_pack: fab
+#   link: https://twitter.com/GeorgeCushen
 - icon: graduation-cap
   icon_pack: fas
   link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
 - icon: github
   icon_pack: fab
-  link: https://github.com/gcushen
+  link: https://github.com/irisfee
 - icon: linkedin
   icon_pack: fab
-  link: https://www.linkedin.com/
+  link: www.linkedin.com/in/yufei-zhao-4abb40ab
 superuser: true
-title: Nelson Bighetti
+title: Yufei Zhao
 ---
 
-Nelson Bighetti is a professor of artificial intelligence at the Stanford AI Lab. His research interests include distributed robotics, mobile computing and programmable matter. He leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+I am a PhD candidate in Cognitive Neuroscience at University of Oregon. My research work is focused on using machine learning methods/multivariate pattern analysis to explain the cognitive mechanism of human episodic memory. 
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+I like traveling and cooking. I am a beginner of ceramics.
 
 {{< icon name="download" pack="fas" >}} Download my {{< staticref "media/demo_resume.pdf" "newtab" >}}resumé{{< /staticref >}}.

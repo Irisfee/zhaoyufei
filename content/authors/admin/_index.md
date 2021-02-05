@@ -47,6 +47,6 @@ title: Yufei Zhao
 
 I am a PhD candidate in Cognitive Neuroscience at University of Oregon. My research work is focused on using machine learning methods/multivariate pattern analysis to explain the cognitive mechanism of human episodic memory. 
 
-I like traveling and cooking. I am a beginner of ceramics.
+
 
 {{< icon name="download" pack="fas" >}} Download my {{< staticref "media/demo_resume.pdf" "newtab" >}}resumé{{< /staticref >}}.

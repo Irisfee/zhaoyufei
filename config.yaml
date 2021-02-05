@@ -4,7 +4,7 @@ baseurl: ''
 copyright: Yufei Zhao &copy;{year}
 enableGitInfo: no
 defaultContentLanguage: en
-hasCJKLanguage: no
+hasCJKLanguage: yes
 defaultContentLanguageInSubdir: no
 removePathAccents: yes
 summaryLength: 30

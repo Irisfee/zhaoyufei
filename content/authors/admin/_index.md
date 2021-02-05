@@ -19,7 +19,7 @@ email: yzhao17@uoregon.edu
 highlight_name: false
 interests:
 - Data science
-- Machine learning
+- Machine learning 
 
 organizations:
 - name: Kuhl Lab of Neuroscience
@@ -29,9 +29,9 @@ social:
 - icon: envelope
   icon_pack: fas
   link: mailto:yzhao17@uoregon.edu
-# - icon: twitter
-#   icon_pack: fab
-#   link: https://twitter.com/GeorgeCushen
+- icon: twitter
+  icon_pack: fab
+  link: https://twitter.com/_zhaoyufei
 - icon: graduation-cap
   icon_pack: fas
   link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
@@ -45,7 +45,7 @@ superuser: true
 title: Yufei Zhao
 ---
 
-I am a PhD candidate in Cognitive Neuroscience at University of Oregon. My research work is focused on using machine learning methods/multivariate pattern analysis to explain the cognitive mechanism of human episodic memory. 
+I am a PhD candidate in Cognitive Neuroscience at University of Oregon. My research work is focused on using multivariate pattern analysis to explain the cognitive mechanism underlying human episodic memory and using machine learning techniques to predict human memroy performance. 
 
 
 

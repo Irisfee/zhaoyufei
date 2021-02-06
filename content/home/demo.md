@@ -30,16 +30,13 @@ design:
 ### Programming
 
 
-* **Python** &emsp; numpy, pandas, scipy, pytorch
-* **R** &emsp; tidyverse, tidymodels, lme4
-* **MATLAB**
-* **Bash**
-* **SQL**
+* {{< icon name="python" pack="fab" >}}**Python** &emsp; numpy, pandas, scipy, pytorch, nltk, multiprocessing
+* {{< icon name="r-project" pack="fab" >}}**R** &emsp; tidyverse, tidymodels, lme4
+* **MATLAB** **&bull;** **Bash** **&bull;** **C** **&bull;** **SQL**
+* **Git** **&bull;** **Singularity** 
 
-### Developer tool
-* Git
-* Singularity
-
+### Misc
+* **Illustrator** 
 
 [View more templates](https://sourcethemes.com/academic/templates/) for Academic.
 

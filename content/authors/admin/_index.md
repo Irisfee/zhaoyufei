@@ -45,7 +45,7 @@ superuser: true
 title: Yufei Zhao
 ---
 
-I am a PhD candidate in Cognitive Neuroscience at University of Oregon. My research work is focused on using multivariate pattern analysis to explain the cognitive mechanism underlying human episodic memory and using machine learning techniques to predict human memroy performance. 
+I am a PhD candidate in Cognitive Neuroscience at University of Oregon. My research work is focused on using multivariate pattern analysis to explain the cognitive mechanism underlying human episodic memory and using machine learning techniques to predict human memory behavior. 
 
 
 

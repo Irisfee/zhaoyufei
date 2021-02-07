@@ -30,15 +30,14 @@ design:
 ### Programming
 
 
-* {{< icon name="python" pack="fab" >}}**Python** &emsp; numpy, pandas, scipy, pytorch, nltk, multiprocessing
-* {{< icon name="r-project" pack="fab" >}}**R** &emsp; tidyverse, tidymodels, lme4
+* {{< icon name="python" pack="fab" >}}**Python** &emsp;  multivariate pattern analysis, natural language processing, machine learning, neural network, behavorial science experiments coding
+* {{< icon name="r-project" pack="fab" >}}**R**   &emsp; multilevel modeling, machine learning, data viz
 * **MATLAB** **&bull;** **Bash** **&bull;** **C** **&bull;** **SQL**
 * **Git** **&bull;** **Singularity** 
 
 ### Misc
-* **Illustrator** 
-
-[View more templates](https://sourcethemes.com/academic/templates/) for Academic.
+* **Illustrator** **&bull;** **Photoshop**
+* **Cooking** **&bull;** **Baking** **&bull;** **Ceramics**
 
 
 

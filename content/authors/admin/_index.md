@@ -18,7 +18,7 @@ education:
 email: yzhao17@uoregon.edu
 highlight_name: false
 interests:
-- Data science
+- Big data
 - Machine learning 
 
 organizations:
@@ -49,4 +49,6 @@ I am a PhD candidate in Cognitive Neuroscience at University of Oregon. My resea
 
 
 
+[comment]: <> (
 {{< icon name="download" pack="fas" >}} Download my {{< staticref "media/demo_resume.pdf" "newtab" >}}resumé{{< /staticref >}}.
+)

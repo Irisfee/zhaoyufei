@@ -13,3 +13,6 @@ view: 2
 {{< icon name="book" pack="fas" >}}   __Zhao, Y.__, & Kuhl, B.A. (2022). Content Reinstatement. In *The Oxford Handbook of Human Memory.* (in press)
 
 {{< icon name="file-alt" pack="fas" >}}   __Zhao, Y.__, Chanales, A.J.H. & Kuhl, B.A. (2021). Adaptive memory distortions are predicted by feature representations in parietal cortex. *Journal of Neuroscience* 
+
+# Invited talks
+{{< icon name="microphone-alt" pack="fas" >}}  University of Oregon, AI, Mind, and Brain group, February 2021

@@ -32,8 +32,10 @@ design:
 
 * {{< icon name="python" pack="fab" >}}**Python** &emsp;  multivariate pattern analysis, natural language processing, machine learning, neural network, behavorial science experiments coding
 * {{< icon name="r-project" pack="fab" >}}**R**   &emsp; multilevel modeling, machine learning, data viz
+    * I am the author and maintainer of R package  {{< staticref "https://irisfee.github.io/roistats/index.html" "newtab" >}}{roistats}{{< /staticref >}} 
 * **MATLAB** **&bull;** **Bash** **&bull;** **C** **&bull;** **SQL**
 * **Git** **&bull;** **Singularity** 
+
 
 ### Misc
 * **Illustrator** **&bull;** **Photoshop**

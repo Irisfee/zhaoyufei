@@ -15,7 +15,7 @@
 
 [[main]]
   name = "Publications"
-  url = "/project_landing"
+  url = "/publication_landing"
   weight = 30
 
 

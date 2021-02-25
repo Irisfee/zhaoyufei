@@ -1,7 +1,7 @@
 ---
 # Documentation: https://wowchemy.com/docs/managing-content/
 
-title: "Visualize NSD images (cropped cocodataset) based on VGG16 Convolutional layer features"
+title: "Visualize image set based on VGG16 Convolutional layer features"
 subtitle: ""
 summary: ""
 authors: []
@@ -33,9 +33,12 @@ projects: []
 
 ## In this notebook, I am going to show you 
 
-* How to extract the features for a set of images at a certain layer of VGG16 pretrained model with *PyTorch*.
-* How to use *PCA(Principle component analysis)* to reduce the feature dimension for better visualization.
-* How to use *t-SNE* to visualize the image set based on their similarity of layer features (visualize the n-dimension features as 2-d distance).
+* How to extract the features for a set of images at a certain layer of VGG16 pretrained model with **PyTorch**.
+* How to use **PCA(Principle component analysis)** to reduce the feature dimension for better visualization.
+* How to use **t-SNE** to visualize the image set based on their similarity of layer features (visualize the n-dimension features as 2-d distance).
+
+## Image set for example
+Here, I am using images from [Natural Scene Dataset](http://naturalscenesdataset.org). The Natural Scenes Dataset (NSD) is a large-scale fMRI dataset conducted at ultra-high-field (7T) strength at the Center of Magnetic Resonance Research (CMRR) at the University of Minnesota. The dataset consists of whole-brain, high-resolution (1.8-mm isotropic, 1.6-s sampling rate) fMRI measurements of 8 healthy adult subjects while they viewed thousands of color natural scenes over the course of 30–40 scan sessions. Images used in this dataset are originally from [Microsoft COCO](https://cocodataset.org/#home). I am working on semantic and memory-related exploratory analysis about this dataset. 
 
 
 ```python

@@ -8,7 +8,7 @@ education:
   - course: Data Science Specialization
     institution: University of Oregon
     year: Expected 2021
-  - course: Master in Psychology
+  - course: MS in Psychology
     institution: University of Oregon
     year: 2017 - 2018
   - course: BS in Psychology

@@ -9,8 +9,8 @@ tags:
 - Python
 - Neural network
 categories: []
-date: 2021-02-16T20:21:35-08:00
-lastmod: 2021-02-16T20:21:35-08:00
+date: 2020-11-16T20:21:35-08:00
+lastmod: 2020-11-16T20:21:35-08:00
 featured: false
 draft: false
 
@@ -33,9 +33,9 @@ projects: []
 
 ## In this notebook, I am going to show you 
 
-* How to extract the features for a set of images at a certain layer of VGG16 pretrained model with PyTorch.
-* How to use PCA(Principle component analysis) to reduce the feature dimension for better visualization.
-* How to use t-SNE to visualize the image set based on their similarity of layer features (visualize the n-dimension features as 2-d distance).
+* How to extract the features for a set of images at a certain layer of VGG16 pretrained model with *PyTorch*.
+* How to use *PCA(Principle component analysis)* to reduce the feature dimension for better visualization.
+* How to use *t-SNE* to visualize the image set based on their similarity of layer features (visualize the n-dimension features as 2-d distance).
 
 
 ```python

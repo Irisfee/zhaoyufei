@@ -23,6 +23,11 @@
   name = "Posts"
   url = "/post"
   weight = 40
+  
+[[main]]
+  name = "Gallery"
+  url = "/gallery"
+  weight = 100
 
 #[[main]]
 #  name = "Courses"

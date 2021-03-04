@@ -7,7 +7,7 @@ education:
     year: 2017 - Expected 2022
   - course: Data Science Specialization
     institution: University of Oregon
-    year: Expected 2021
+    year: 2021
   - course: MS in Psychology
     institution: University of Oregon
     year: 2017 - 2018
@@ -45,7 +45,7 @@ superuser: true
 title: Yufei Zhao
 ---
 
-I am a PhD candidate in Cognitive Neuroscience at University of Oregon. My research work is focused on using multivariate pattern analysis to explain the cognitive mechanism underlying human episodic memory and using machine learning techniques to predict human memory behavior. 
+I am a PhD candidate in Cognitive Neuroscience at University of Oregon. My research work is focused on using human fMRI to explain the cognitive mechanism underlying human episodic memory and using machine learning techniques to predict human memory behavior. 
 
 
 

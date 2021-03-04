@@ -12,7 +12,7 @@ view: 2
 
 {{< icon name="book" pack="fas" >}}   __Zhao, Y.__, & Kuhl, B.A. (2022). Content Reinstatement. In *The Oxford Handbook of Human Memory.* (in press)
 
-{{< icon name="file-alt" pack="fas" >}}   __Zhao, Y.__, Chanales, A.J.H. & Kuhl, B.A. (2021). Adaptive memory distortions are predicted by feature representations in parietal cortex. *Journal of Neuroscience* &nbsp;{{< icon name="newspaper" pack="fas" >}} Media coverage: [*The Academic Times*](https://academictimes.com/our-memory-works-better-when-it-exaggerates-small-differences/), [*Sciences et Avenir*](https://www.sciencesetavenir.fr/sante/cerveau-et-psy/deformer-nos-souvenirs-en-exagerant-leurs-differences-nous-aide-a-nous-les-rememorer_152099) 
+{{< icon name="file-alt" pack="fas" >}}   __Zhao, Y.__, Chanales, A.J.H. & Kuhl, B.A. (2021). Adaptive memory distortions are predicted by feature representations in parietal cortex. *Journal of Neuroscience*. &nbsp;{{< icon name="newspaper" pack="fas" >}} Media coverage: [*The Academic Times*](https://academictimes.com/our-memory-works-better-when-it-exaggerates-small-differences/), [*Sciences et Avenir*](https://www.sciencesetavenir.fr/sante/cerveau-et-psy/deformer-nos-souvenirs-en-exagerant-leurs-differences-nous-aide-a-nous-les-rememorer_152099), [*Pourquoi Docteur*](https://www.pourquoidocteur.fr/Articles/Question-d-actu/35553-Cerveau-exagerer-differences-souvenirs-similaires-mieux-s-en-rappeler), [*DeMorgen*](https://www.demorgen.be/tech-wetenschap/u-overdrijft-helemaal-niet-uw-hersenen-doen-dat-uit-zichzelf~bfee5dd9/), [*MedicalXpress*](https://medicalxpress.com/news/2021-02-distorting-memories-brain.html).
 
 # Invited talk
 {{< icon name="microphone-alt" pack="fas" >}}  University of Oregon, AI, Mind, and Brain group, February 2021

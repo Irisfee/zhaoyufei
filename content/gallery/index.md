@@ -7,7 +7,13 @@ subtitle = ""
 headless = false
 +++
 
-
+<style>
+.article-container {
+  max-width: 80%;
+  padding: 0 20px 0 20px;
+  margin: 0 auto 0 auto;
+}
+</style>
 
 As an old Chinese saying goes, "Life is about reading ten thousands of books and traveling ten thousands of miles." (读万卷书 行万里路). Besides reading, in my spare time I love traveling around the world. So far I have been to Japan, Thailand, Taiwan, France, Portugal, Spain, and of course, many cities in main-land China and the U.S., the two countries I have been spending most of my time with my beloved family and friends. 
 {{< gallery >}}

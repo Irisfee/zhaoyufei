@@ -1,2 +1,2 @@
 # My personal website
-This repo hosts my [personal website](http://zhaoyufei.rbind.io). The theme of the website is powered by the [Academic theme](https://wowchemy.com) for [Hugo](https://gohugo.io). I coded it up via R Blogdown and Jupyter notebook, with customization done by CSS/HTML.
+This repo hosts my [personal website](http://zhaoyufei.rbind.io). The theme of the website is powered by the [Academic theme](https://wowchemy.com) for [Hugo](https://gohugo.io). I coded it up via R Blogdown and Jupyter notebook, with layout customization done by CSS/HTML.

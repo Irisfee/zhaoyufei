@@ -77,6 +77,7 @@ Here I want to list some books/course videos that I found super helpful along my
     
 
 ## Misc
+* Intro to [CSS](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics) and [HTML](https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics)
 * A practical video tutorial for Illustrator [Adobe Illustrator Tutorials](https://www.youtube.com/playlist?list=PLnLzAhQDUqEC_yMyn_QvMzUgGykJkvI0F)
 * [Pro Git](https://git-scm.com/book/en/v2) something about version control
 * [Unix and Linux Visual QuickStart Guide](https://www.oreilly.com/library/view/unix-and-linux/9780133793871/) learning a bit unix will even change your experience with your pc.

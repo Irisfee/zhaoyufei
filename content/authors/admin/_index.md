@@ -4,7 +4,7 @@ education:
   courses:
   - course: PhD in Psycology
     institution: University of Oregon
-    year: 2017 - Expected 2022
+    year: 2017 - Expected 2023
   - course: Data Science Specialization
     institution: University of Oregon
     year: 2021
@@ -18,8 +18,8 @@ education:
 email: yzhao17@uoregon.edu
 highlight_name: false
 interests:
-- Big data
-- Machine learning 
+- Data science
+- Machine learning engineering
 
 organizations:
 - name: Kuhl Lab of Neuroscience
@@ -40,7 +40,7 @@ social:
   link: https://github.com/irisfee
 - icon: linkedin
   icon_pack: fab
-  link: www.linkedin.com/in/yufei-zhao-4abb40ab
+  link: https://www.linkedin.com/in/yufei-zhao-4abb40ab
 superuser: true
 title: Yufei Zhao
 ---

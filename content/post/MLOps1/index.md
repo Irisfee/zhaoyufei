@@ -3,7 +3,7 @@
 
 title: "Notes for Introduction to Machine Learning in Production (MLOps1) on Coursera/Deeplearning.ai"
 subtitle: ""
-summary: "Here is the note I took for the course 'Introduction to Machine learning in Production (MLOps)' at Coursera/Deeplearning.ai. This is the first course of the Machine Learning Engineering for Production (MLOps) Specialization."
+summary: "Here is the note I took for the course 'Introduction to Machine learning in Production (MLOps)' at Coursera/Deeplearning.ai. This is the first course of the Machine Learning Engineering for Production (MLOps) Specialization. In this course, I learned about the key components of ML life cycle and pipeline in production settings and how to solve problems for structured, unstructured, small, and big data."
 authors: []
 tags: 
 - Python

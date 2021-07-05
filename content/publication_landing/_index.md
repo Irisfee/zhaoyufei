@@ -21,3 +21,10 @@ view: 2
 {{< icon name="chalkboard-teacher" pack="fas" >}}  &nbsp; __Zhao, Y.__, Chanales, A.J.H., Kuhl, B.A. (2019). Competition induces exaggeration in human memory. *Society for Neuroscience.*  &nbsp;{{< icon name="download" pack="fas" >}} {{< staticref "media/publications/posters/SFN_Zhao_2019.pdf" "newtab" >}}PDF{{< /staticref >}}.
 
 {{< icon name="chalkboard-teacher" pack="fas" >}}  &nbsp; __Zhao, Y.__, Chanales, A.J.H., Kuhl, B.A. (2019). Competition induces exaggeration in human memory. *Cognitive Neuroscience Society.*  &nbsp;{{< icon name="download" pack="fas" >}} {{< staticref "media/publications/posters/CNS_Zhao_2019.pdf" "newtab" >}}PDF{{< /staticref >}}.
+
+# Teaching experience
+*Learning and Memory*, TA, 2020 Winter
+
+*Cognition*, TA, 2021 Spring
+
+*Cognitive Neuroscience*, TA, 2021 Spring

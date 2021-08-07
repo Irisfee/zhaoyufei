@@ -2,13 +2,13 @@
 # bio: 
 education:
   courses:
-  - course: PhD in Psycology
+  - course: PhD in Cognitive Neuroscience
     institution: University of Oregon
     year: 2017 - Expected 2023
   - course: Data Science Specialization
     institution: University of Oregon
     year: 2021
-  - course: MS in Psychology
+  - course: MS in Cognitive Neuroscience
     institution: University of Oregon
     year: 2017 - 2018
   - course: BS in Psychology

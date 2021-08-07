@@ -2,7 +2,7 @@
 # Documentation: https://wowchemy.com/docs/managing-content/
 
 title: "{roistats}: an R package for fast and easy multiple testing analysis"
-summary: ""
+summary: "The goal of this package is to apply same basic statistical tests with multiple comparison correction across multiple sub-groups, with the output being a nice arranged data.frame instead of detailed listed information."
 authors: []
 tags: 
 

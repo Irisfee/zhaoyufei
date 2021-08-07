@@ -33,10 +33,12 @@ content:
     tag: fMRI
   - name: MVPA
     tag: MVPA
-  - name: Neural network
+  - name: CNN
     tag: Neural network
-  - name: Natural language processing
+  - name: NLP
     tag: Natural language processing
+  - name: Machine learning
+    tag: Machine learning
   - name: Python
     tag: Python
   - name: R

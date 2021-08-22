@@ -1,0 +1,1302 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  
+  
+  <meta name="generator" content="Wowchemy 5.0.0-beta.1 for Hugo">
+  
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Yufei Zhao">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Although the theory basis of my major, cognitive neuroscience, is based on psychology and biology, the skills I need to tackle with the research work of this field are most data science related.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/ref-data-science/">
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+
+  
+  
+  
+  <meta name="theme-color" content="rgb(251, 191, 183)">
+  
+
+  
+  
+  
+  <script src="/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.0/css/academicons.min.css" integrity="sha512-W4yqoT1+8NLkinBLBZko+dFB2ZbHsYLDdr50VElllRcNt2Q4/GSs6u71UHKxB7S6JEMCp5Ve4xjh3eGQl/HRvg==" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" integrity="sha512-1xoFisiGdy9nvho8EgXuXvnpR5GAMSjFwp40gSRE3NwdUdIMIKuPa7bqoUhLD0O/5tPNhteAsE5XyyMi5reQVA==" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.2.2/lazysizes.min.js" integrity="sha512-TmDwFLhg3UA4ZG0Eb4MIyT1O1Mb+Oww5kFG0uHqXsdbyZz9DcvYQhKpGgNkamAI6h2lGGZq2X8ftOJvF/XjTUg==" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cutive+Mono%7CLora:400,700%7CRoboto:400,700&display=swap">
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.e61a13a3db7408951e9f1ca8976d48ae.css">
+
+  
+
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NBKV8F2XP3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-NBKV8F2XP3', {});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+  
+
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu8daf07698441511167650349ca463977_8870_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu8daf07698441511167650349ca463977_8870_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="/post/ref-data-science/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@_zhaoyufei">
+  <meta property="twitter:creator" content="@_zhaoyufei">
+  
+  <meta property="og:site_name" content="Yufei Zhao | 赵雨菲">
+  <meta property="og:url" content="/post/ref-data-science/">
+  <meta property="og:title" content="Books/video courses recommendation for data science related coding/machine learning/stats | Yufei Zhao | 赵雨菲">
+  <meta property="og:description" content="Although the theory basis of my major, cognitive neuroscience, is based on psychology and biology, the skills I need to tackle with the research work of this field are most data science related."><meta property="og:image" content="/post/ref-data-science/featured.png">
+  <meta property="twitter:image" content="/post/ref-data-science/featured.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2020-10-02T21:30:53-08:00">
+    
+    <meta property="article:modified_time" content="2020-10-02T21:30:53-08:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/ref-data-science/"
+  },
+  "headline": "Books/video courses recommendation for data science related coding/machine learning/stats",
+  
+  "image": [
+    "/post/ref-data-science/featured.png"
+  ],
+  
+  "datePublished": "2020-10-02T21:30:53-08:00",
+  "dateModified": "2020-10-02T21:30:53-08:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Yufei Zhao"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Yufei Zhao | 赵雨菲",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/images/icon_hu8daf07698441511167650349ca463977_8870_192x192_fill_lanczos_center_2.png"
+    }
+  },
+  "description": "Although the theory basis of my major, cognitive neuroscience, is based on psychology and biology, the skills I need to tackle with the research work of this field are most data science related."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Books/video courses recommendation for data science related coding/machine learning/stats | Yufei Zhao | 赵雨菲</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper  ">
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.1df0392aab543464b23a85146803aaf2.js"></script>
+
+  
+
+<aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control">
+        
+      </div>
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Yufei Zhao | 赵雨菲</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Yufei Zhao | 赵雨菲</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/project_landing"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link  active" href="/post"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/publication_landing"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/gallery"><span>Gallery</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Books/video courses recommendation for data science related coding/machine learning/stats</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+  
+  
+  <span class="article-date">
+    
+    
+    2020-10-02
+  </span>
+  
+
+
+  
+
+  
+
+  
+  
+  
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/ref-data-science/#disqus_thread"></a>
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <p>Although the theory basis of my major, cognitive neuroscience, is based on psychology and biology, the skills I need to tackle with the research work of this field are most data science related. Since programming languages and data related techniques are  developing with dramatically speed, staying tuned and keeping studying is a must.</p>
+<p>Here I want to list some books/course videos that I found super helpful along my learning path.</p>
+<h2 id="python">Python</h2>
+<ul>
+<li><a href="https://greenteapress.com/wp/think-python-2e/" target="_blank" rel="noopener">Think Python</a>
+<ul>
+<li>I learned Python from beginning with this book.</li>
+</ul>
+</li>
+<li><a href="https://www.oreilly.com/library/view/fluent-python/9781491946237/" target="_blank" rel="noopener">Fluent Python</a>
+<ul>
+<li>I learned many advanced skills in python from this book. Python has so many fancy functions/tricks that can be easily missed. This book help improving your codes in a more elegant and efficient way.</li>
+</ul>
+</li>
+<li><a href="https://www.oreilly.com/library/view/python-cookbook-3rd/9781449357337/" target="_blank" rel="noopener">Python Cookbook</a>
+<ul>
+<li>A book with many random skills and tricks.</li>
+</ul>
+</li>
+<li><a href="https://jakevdp.github.io/PythonDataScienceHandbook/" target="_blank" rel="noopener">Python Data Science Handbook</a>
+<ul>
+<li>Learned Numpy, Pandas, Scikit-learn with this book.</li>
+</ul>
+</li>
+</ul>
+<h2 id="r">R</h2>
+<ul>
+<li><a href="https://r4ds.had.co.nz" target="_blank" rel="noopener">R for Data Science</a>
+<ul>
+<li>Everything you need to know about tidyverse is here.</li>
+</ul>
+</li>
+<li><a href="https://adv-r.hadley.nz" target="_blank" rel="noopener">Advanced R</a>
+<ul>
+<li>Programming skills with R.</li>
+</ul>
+</li>
+<li><a href="https://r-graphics.org" target="_blank" rel="noopener">R Graphics Cookbook</a>
+<ul>
+<li>Fantastic book for ggplot2 lovers.</li>
+</ul>
+</li>
+<li><a href="https://r-pkgs.org" target="_blank" rel="noopener">R Packages</a>
+<ul>
+<li>Built my first R package with this awesome book.</li>
+</ul>
+</li>
+<li><a href="https://bookdown.org/yihui/blogdown/" target="_blank" rel="noopener">blogdown: Creating Websites with R Markdown</a>
+<ul>
+<li>Interested in building a website like this one you are looking at? Check out this book.</li>
+<li>I also found <a href="https://bookdown.org" target="_blank" rel="noopener">Bookdown</a> and <a href="https://pagedown.rbind.io" target="_blank" rel="noopener">Pagedown</a> are so helpful.</li>
+</ul>
+</li>
+</ul>
+<h2 id="machine-learning">Machine learning</h2>
+<ul>
+<li><a href="http://cs229.stanford.edu" target="_blank" rel="noopener">CS229: Machine Learning</a>
+<ul>
+<li>This machine learning is provided by Andrew Ng from Stanford. Course videos can be found via Youtube. Very comprehensive introduction to the basic knowledge of machine learning.</li>
+</ul>
+</li>
+<li><a href="http://cs231n.stanford.edu" target="_blank" rel="noopener">CS231n: Convolutional Neural Networks for Visual Recognition</a>
+<ul>
+<li>As the course title implicates, this course is focused on how to apply CNN. In general it is quite straight forward if you have a solid knowledge base from CS229. Course videos can also be found via Youtube.</li>
+</ul>
+</li>
+<li><a href="https://www.deeplearning.ai" target="_blank" rel="noopener">deeplearning.ai</a>
+<ul>
+<li>Andrew Ng also provides a series of advance deep learning course via Coursera.</li>
+</ul>
+</li>
+<li><a href="https://www.statlearning.com" target="_blank" rel="noopener">An Introduction to Statistical Learning</a>
+<ul>
+<li>I read this book while taking the machine learning course for my <a href="https://github.com/uo-datasci-specialization/" target="_blank" rel="noopener">Data Science Specialization</a> at the University of Oregon. Very detailed and clear explanation for both the stats and coding of statistical learning.</li>
+</ul>
+</li>
+<li><a href="https://web.stanford.edu/~hastie/ElemStatLearn/" target="_blank" rel="noopener">The Elements of Statistical Learning: Data Mining, Inference, and Prediction</a>
+<ul>
+<li>More advanced comparing with the previous one.</li>
+</ul>
+</li>
+</ul>
+<h2 id="misc">Misc</h2>
+<ul>
+<li>Intro to <a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics" target="_blank" rel="noopener">CSS</a> and <a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics" target="_blank" rel="noopener">HTML</a></li>
+<li>A practical video tutorial for Illustrator <a href="https://www.youtube.com/playlist?list=PLnLzAhQDUqEC_yMyn_QvMzUgGykJkvI0F" target="_blank" rel="noopener">Adobe Illustrator Tutorials</a></li>
+<li><a href="https://git-scm.com/book/en/v2" target="_blank" rel="noopener">Pro Git</a> something about version control</li>
+<li><a href="https://www.oreilly.com/library/view/unix-and-linux/9780133793871/" target="_blank" rel="noopener">Unix and Linux Visual QuickStart Guide</a> learning a bit unix will even change your experience with your pc.</li>
+<li><a href="https://www.youtube.com/c/mumfordbrainstats" target="_blank" rel="noopener">Mumford Brain Stats</a> Stats knowledge in neuroscience area.</li>
+</ul>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/python/">Python</a>
+  
+  <a class="badge badge-light" href="/tag/r/">R</a>
+  
+  <a class="badge badge-light" href="/tag/machine-learning/">Machine learning</a>
+  
+  <a class="badge badge-light" href="/tag/neural-network/">Neural network</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/ref-data-science/&amp;text=Books/video%20courses%20recommendation%20for%20data%20science%20related%20coding/machine%20learning/stats" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/ref-data-science/&amp;t=Books/video%20courses%20recommendation%20for%20data%20science%20related%20coding/machine%20learning/stats" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Books/video%20courses%20recommendation%20for%20data%20science%20related%20coding/machine%20learning/stats&amp;body=/post/ref-data-science/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/ref-data-science/&amp;title=Books/video%20courses%20recommendation%20for%20data%20science%20related%20coding/machine%20learning/stats" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Books/video%20courses%20recommendation%20for%20data%20science%20related%20coding/machine%20learning/stats%20/post/ref-data-science/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/ref-data-science/&amp;title=Books/video%20courses%20recommendation%20for%20data%20science%20related%20coding/machine%20learning/stats" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="avatar mr-3 avatar-square" src="/author/yufei-zhao/avatar_hub2d2ba509bb5e359b836d762ea32b046_94711_270x270_fill_q75_lanczos_center.jpg" alt="Yufei Zhao">
+    
+
+    <div class="media-body">
+      <h5 class="card-title">Yufei Zhao</h5>
+      <h6 class="card-subtitle">PhD Candidate</h6>
+      
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:yzhao17@uoregon.edu" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/_zhaoyufei" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/irisfee" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/yufei-zhao-4abb40ab" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+<section id="comments">
+  
+    
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "zhaoyufei" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+</section>
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/project/hitsong/">Building API for Predicting Mando-pop Popularity</a></li>
+      
+      <li><a href="/project/nsd/">Decoding memory content from human parietal cortex: VGG16 application on memory research</a></li>
+      
+      <li><a href="/post/vgg-viusalization/">Visualize image set based on VGG16 Convolutional layer features</a></li>
+      
+      <li><a href="/post/mlops2/">Notes for Machine Learning Data Lifecycle in Production (MLOps2) on Coursera/Deeplearning.ai</a></li>
+      
+      <li><a href="/post/mlops1/">Notes for Introduction to Machine Learning in Production (MLOps1) on Coursera/Deeplearning.ai</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+  <p class="powered-by">
+    Yufei Zhao ©2021 &middot; 
+    Code with ❤️ and 🍵. Powered by R <a href="https://bookdown.org/yihui/blogdown/" target="_blank" rel="noopener">Blogdown</a> and the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/latex.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js" integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'event' : "Events",
+        'slides' : "Slides"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    <script id="dsq-count-scr" src="https://zhaoyufei.disqus.com/count.js" async></script>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/js/wowchemy.min.572b7caf7fe601716a0f74d67d754c21.js"></script>
+
+    
+
+
+
+
+
+
+</body>
+</html>

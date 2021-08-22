@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Yufei Zhao | 赵雨菲</title>
+    <link>/publication_landing/</link>
+      <atom:link href="/publication_landing/index.xml" rel="self" type="application/rss+xml" />
+    <description>Yufei Zhao | 赵雨菲</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>Yufei Zhao ©2021</copyright>
+    <image>
+      <url>/images/icon_hu8daf07698441511167650349ca463977_8870_512x512_fill_lanczos_center_2.png</url>
+      <title>Yufei Zhao | 赵雨菲</title>
+      <link>/publication_landing/</link>
+    </image>
+    
+  </channel>
+</rss>

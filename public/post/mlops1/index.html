@@ -1,0 +1,1803 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  
+  
+  <meta name="generator" content="Wowchemy 5.0.0-beta.1 for Hugo">
+  
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Yufei Zhao">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Here is the note I took for the course &#39;Introduction to Machine learning in Production (MLOps)&#39; at Coursera/Deeplearning.ai. This is the first course of the Machine Learning Engineering for Production (MLOps) Specialization. In this course, I learned about the key components of ML life cycle and pipeline in production settings and how to solve problems for structured, unstructured, small, and big data.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/mlops1/">
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+
+  
+  
+  
+  <meta name="theme-color" content="rgb(251, 191, 183)">
+  
+
+  
+  
+  
+  <script src="/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.0/css/academicons.min.css" integrity="sha512-W4yqoT1+8NLkinBLBZko+dFB2ZbHsYLDdr50VElllRcNt2Q4/GSs6u71UHKxB7S6JEMCp5Ve4xjh3eGQl/HRvg==" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" integrity="sha512-1xoFisiGdy9nvho8EgXuXvnpR5GAMSjFwp40gSRE3NwdUdIMIKuPa7bqoUhLD0O/5tPNhteAsE5XyyMi5reQVA==" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.2.2/lazysizes.min.js" integrity="sha512-TmDwFLhg3UA4ZG0Eb4MIyT1O1Mb+Oww5kFG0uHqXsdbyZz9DcvYQhKpGgNkamAI6h2lGGZq2X8ftOJvF/XjTUg==" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cutive+Mono%7CLora:400,700%7CRoboto:400,700&display=swap">
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.e61a13a3db7408951e9f1ca8976d48ae.css">
+
+  
+
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NBKV8F2XP3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-NBKV8F2XP3', {});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+  
+
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu8daf07698441511167650349ca463977_8870_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu8daf07698441511167650349ca463977_8870_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="/post/mlops1/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@_zhaoyufei">
+  <meta property="twitter:creator" content="@_zhaoyufei">
+  
+  <meta property="og:site_name" content="Yufei Zhao | 赵雨菲">
+  <meta property="og:url" content="/post/mlops1/">
+  <meta property="og:title" content="Notes for Introduction to Machine Learning in Production (MLOps1) on Coursera/Deeplearning.ai | Yufei Zhao | 赵雨菲">
+  <meta property="og:description" content="Here is the note I took for the course &#39;Introduction to Machine learning in Production (MLOps)&#39; at Coursera/Deeplearning.ai. This is the first course of the Machine Learning Engineering for Production (MLOps) Specialization. In this course, I learned about the key components of ML life cycle and pipeline in production settings and how to solve problems for structured, unstructured, small, and big data."><meta property="og:image" content="/post/mlops1/featured.jpg">
+  <meta property="twitter:image" content="/post/mlops1/featured.jpg"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2021-06-07T19:31:34-07:00">
+    
+    <meta property="article:modified_time" content="2021-06-07T19:31:34-07:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/mlops1/"
+  },
+  "headline": "Notes for Introduction to Machine Learning in Production (MLOps1) on Coursera/Deeplearning.ai",
+  
+  "image": [
+    "/post/mlops1/featured.jpg"
+  ],
+  
+  "datePublished": "2021-06-07T19:31:34-07:00",
+  "dateModified": "2021-06-07T19:31:34-07:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Yufei Zhao"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Yufei Zhao | 赵雨菲",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/images/icon_hu8daf07698441511167650349ca463977_8870_192x192_fill_lanczos_center_2.png"
+    }
+  },
+  "description": "Here is the note I took for the course 'Introduction to Machine learning in Production (MLOps)' at Coursera/Deeplearning.ai. This is the first course of the Machine Learning Engineering for Production (MLOps) Specialization. In this course, I learned about the key components of ML life cycle and pipeline in production settings and how to solve problems for structured, unstructured, small, and big data."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Notes for Introduction to Machine Learning in Production (MLOps1) on Coursera/Deeplearning.ai | Yufei Zhao | 赵雨菲</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper  ">
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.1df0392aab543464b23a85146803aaf2.js"></script>
+
+  
+
+<aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control">
+        
+      </div>
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Yufei Zhao | 赵雨菲</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Yufei Zhao | 赵雨菲</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/project_landing"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link  active" href="/post"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/publication_landing"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/gallery"><span>Gallery</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Notes for Introduction to Machine Learning in Production (MLOps1) on Coursera/Deeplearning.ai</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+  
+  
+  <span class="article-date">
+    
+    
+    2021-06-07
+  </span>
+  
+
+
+  
+
+  
+
+  
+  
+  
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/mlops1/#disqus_thread"></a>
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <h1 id="week-1-steps-of-an-ml-project">Week 1: Steps of an ML project</h1>
+<h2 id="the-ml-project-lifecycle">The ML project lifecycle</h2>
+<p>MLOps (Machine learning Operations) comprises a set of tools and principles to support progress through the ML project lifcycle.</p>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled.png"></p>
+<h3 id="scoping">Scoping</h3>
+<ul>
+<li>Decide to work on speech recognition for voice search</li>
+<li>Decide on key metrics:
+<ul>
+<li>Acc, latency, throughput</li>
+</ul>
+</li>
+<li>Estimate resources and timeline</li>
+</ul>
+<h3 id="define-data">Define data</h3>
+<ul>
+<li>Is the data labeled consistently</li>
+<li>How much silence before/after each clip?</li>
+<li>How to perform volume normalization?</li>
+</ul>
+<h3 id="modeling">Modeling</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%201.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%201.png"></p>
+<h3 id="deployment">Deployment</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%202.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%202.png"></p>
+<h3 id="data-drift-and-concept-drift">Data drift and concept drift</h3>
+<p><strong>Data drift</strong>: the input data has changed. The distribution of the variables is meaningfully different. As a result, the trained model is not relevant for this new data.</p>
+<p><strong>Concept drift</strong> occurs when the patterns the model learned no longer hold.</p>
+<p>In contrast to the data drift, the distributions (such as user demographics, frequency of words, etc.) might even remain the same. Instead, the <a href="https://evidentlyai.com/blog/evidently-014-target-and-prediction-drift" target="_blank" rel="noopener">relationships between the model inputs and outputs change</a>.</p>
+<h3 id="software-engineering-issues">Software engineering issues</h3>
+<ul>
+<li>Realtime of Batch</li>
+<li>Cloud vs. Edge/Browser</li>
+<li>Compute resources (CPU/GPU/memory)</li>
+<li>Latency, throughput (QPS)</li>
+<li>Logging</li>
+<li>Security and privacy</li>
+</ul>
+<h3 id="common-deployment-cases">Common deployment cases</h3>
+<ol>
+<li>New product/capability</li>
+<li>Automate/assist with manual task</li>
+<li>Replace previous ML system</li>
+</ol>
+<p>Key idesa:</p>
+<ul>
+<li>Gradual ramp up with monitoring</li>
+<li>Rollback</li>
+</ul>
+<h3 id="shadow-mode">Shadow mode</h3>
+<ul>
+<li>ML system shadows the human and runs in parallel.</li>
+<li>Ml system&rsquo;s output not used for any decisions during this phase.</li>
+</ul>
+<h3 id="canary-deployment">Canary deployment</h3>
+<ul>
+<li>Roll out to small fraction (say 5%) of traffic initially.</li>
+<li>Monitor system and ramp up traffic gradually.</li>
+</ul>
+<h3 id="blue-green-deployment">Blue green deployment</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%203.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%203.png"></p>
+<ul>
+<li>Easy way to enable rollback</li>
+</ul>
+<h3 id="degrees-of-automation">Degrees of automation</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%204.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%204.png"></p>
+<h3 id="monitoring-dashboard">Monitoring dashboard</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%205.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%205.png"></p>
+<ul>
+<li>Brainstorm the things that could go wrong.</li>
+<li>Brainstorm a few statistics/metrics that will detect the problem.</li>
+<li>It is ok to use many metrics initially and gradually remove the ones you find not useful.</li>
+</ul>
+<h3 id="examples-of-metrics-to-track">Examples of metrics to track</h3>
+<ul>
+<li>Software metrics: memory, compute, latency, throughout, server load</li>
+<li>Input metrics: avg input length, avg input volume, num missing values, avg image brightness</li>
+<li>Output metrics # times return &lsquo;'(null), # times user</li>
+</ul>
+<h3 id="just-as-ml-modeling-is-iterative-so-is-deployment">Just as ML modeling is iterative, so is deployment</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%206.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%206.png"></p>
+<h3 id="monitoring-dashboard-1">Monitoring dashboard</h3>
+<ul>
+<li>Set thresholds for alarms</li>
+<li>Adapt metrics and thresholds over time</li>
+</ul>
+<h3 id="model-maintenance">Model maintenance</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%207.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%207.png"></p>
+<ul>
+<li>Manual retraining</li>
+<li>Automatic retraining</li>
+</ul>
+<h3 id="metrics-to-monitor">Metrics to monitor</h3>
+<ul>
+<li>Monitor
+<ul>
+<li>Software metrics</li>
+<li>Input metrics</li>
+<li>Output metrics</li>
+</ul>
+</li>
+<li>How quickly do they change?
+<ul>
+<li>User data generally has slower drift.</li>
+<li>enterprise data (B2B applications) can shift fast.</li>
+</ul>
+</li>
+</ul>
+<h3 id="code-link-github-repohttpsgithubcomhttps-deeplearning-aimlep-publictreemaincourse1week1-ungraded-lab">Code Link : <a href="https://github.com/https-deeplearning-ai/MLEP-public/tree/main/course1/week1-ungraded-lab" target="_blank" rel="noopener">Github Repo</a></h3>
+<h3 id="reading-material-week-1">Reading Material Week 1:</h3>
+<ul>
+<li><a href="https://towardsdatascience.com/machine-learning-in-production-why-you-should-care-about-data-and-concept-drift-d96d0bc907fb" target="_blank" rel="noopener">Machine Learning in Production: Why You Should Care About Data and Concept Drift</a></li>
+<li><a href="https://christophergs.com/machine%20learning/2020/03/14/how-to-monitor-machine-learning-models/" target="_blank" rel="noopener">Monitoring Machine Learning Models in Production</a></li>
+<li><a href="https://www.youtube.com/watch?v=06-AZXmwHjo&amp;ab_channel=DeepLearningAI" target="_blank" rel="noopener">A Chat with Andrew on MLOps: From Model-centric to Data-centric AI</a></li>
+</ul>
+<h1 id="week-2-select-and-train-model">Week 2: Select and train model</h1>
+<h2 id="selecting-and-training-a-model">Selecting and Training a Model</h2>
+<h3 id="model-development-is-an-iterative-process">Model development is an iterative process</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%208.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%208.png"></p>
+<h3 id="challenges-in-model-development">Challenges in model development</h3>
+<ol>
+<li>Doing well on training set (usually measured by average training error)</li>
+<li>Doing well on dev/test sets.</li>
+<li>Doing well on business metrics/project goals.</li>
+</ol>
+<h3 id="performance-on-disproportionately-important-example">Performance on disproportionately important example</h3>
+<p>Web search example</p>
+<ul>
+<li>Informational and transactional queries</li>
+<li>Navigational queries</li>
+</ul>
+<h3 id="performance-on-key-slices-of-the-dataset">Performance on key slices of the dataset</h3>
+<ul>
+<li>Example: ML for loan approval: makes sure not to discriminate by ethnicity, gender, location, language of other protected attributes.</li>
+<li>Example: Product recommendations from retailers: Be careful to treat fairly all major user, retailer, and product categories.</li>
+</ul>
+<h3 id="rare-classes">Rare classes</h3>
+<ul>
+<li>Skewed data distribution</li>
+<li>Accuracy in rare classes</li>
+</ul>
+<h3 id="unfortunate-conversation-in-many-companies">Unfortunate conversation in many companies</h3>
+<ul>
+<li>I did well on the test set</li>
+<li>But this doesn&rsquo;t work for my application</li>
+</ul>
+<h3 id="establishing-a-baseline-level-of-performance">Establishing a baseline level of performance</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%209.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%209.png"></p>
+<h3 id="unstructured-and-structured-data">Unstructured and structured data</h3>
+<ul>
+<li>Unstructured data: Image, Audio, Text (HLP is important)</li>
+<li>Structured data: a data frame</li>
+</ul>
+<h3 id="ways-to-establish-a-baseline">Ways to establish a baseline</h3>
+<ul>
+<li>Human level performance</li>
+<li>Literature search for state-of-the-art/open source</li>
+<li>Quick-and-dirty implementation</li>
+<li>Performance of older system</li>
+</ul>
+<p>Baseline helps to indicates what might be possible. In some cases (such as HLP) is also gives a sense of what is irreducible error/Bayes error.</p>
+<h3 id="getting-started-on-modeling">Getting started on modeling</h3>
+<ul>
+<li>Literature search to see what&rsquo;s possible (courses, blogs, open-source projects).</li>
+<li>Find open-source implementations if available.</li>
+<li>A reasonable algorithm with good data will often outperform a great algorithm with no so good data.</li>
+</ul>
+<h3 id="deployment-constraints-when-picking-a-model">Deployment constraints when picking a model</h3>
+<p>Should you take into account deployment constraints when picking a model?</p>
+<ul>
+<li>Yes, if baseline is already established and goal is to build and deploy.</li>
+<li>No (or not necessarily), if purpose is to establish a baseline and determine what is possible and might be worth pursuing.</li>
+</ul>
+<h3 id="sanity-check-for-code-and-algorithm">Sanity-check for code and algorithm</h3>
+<ul>
+<li>Try to overfit a small training dataset before training on a large one.</li>
+</ul>
+<h2 id="error-analysis-and-performance-auditing">Error analysis and performance auditing</h2>
+<h3 id="error-analysis-example">Error analysis example</h3>
+<h3 id="speech-recognition-example">Speech recognition example</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2010.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2010.png"></p>
+<h3 id="iterative-process-of-error-analysis">Iterative process of error analysis</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2011.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2011.png"></p>
+<h3 id="useful-metrics-for-each-tag">Useful metrics for each tag</h3>
+<ul>
+<li>What fraction of errors has that tag?</li>
+<li>Of all data with that tag, what fraction is misclassified?</li>
+<li>What fraction of all the data has that tag?</li>
+<li>How much room for improvement is there on data with that tag?</li>
+</ul>
+<h2 id="prioritizing-what-to-work-on">Prioritizing what to work on</h2>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2012.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2012.png"></p>
+<p>Decide on most important categories to work on based on:</p>
+<ul>
+<li>How much room for improvement there is</li>
+<li>How frequently that category appears</li>
+<li>How easy is to improve accuracy in that category</li>
+<li>How important it is to improve in that category</li>
+</ul>
+<h3 id="addingimproving-data-for-specific-categories">Adding/improving data for specific categories</h3>
+<p>For categories you want to prioritize:</p>
+<ul>
+<li>Collect more data</li>
+<li>Use data augmentation to get more data</li>
+<li>Improve label accuracy/data quality</li>
+</ul>
+<h2 id="skewed-datasets">Skewed datasets</h2>
+<h3 id="confusion-matrix-precision-and-recall">Confusion matrix: Precision and Recall</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2013.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2013.png"></p>
+<h3 id="what-happens-with-print0">What happens with print(&lsquo;0&rsquo;)?</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2014.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2014.png"></p>
+<h3 id="combining-precision-and-recall--f1-score">Combining precision and recall — F1 score</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2015.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2015.png"></p>
+<h3 id="multi-class-metrics">Multi-class metrics</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2016.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2016.png"></p>
+<h2 id="performance-auditing">Performance auditing</h2>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2017.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2017.png"></p>
+<h3 id="auditing-framework">Auditing framework</h3>
+<p>Check for accuracy, fairness/bias, and other problems.</p>
+<ol>
+<li>Brainstorm the ways the system might go wrong.
+<ul>
+<li>Performance on subsets of data (e.g., ethnicity, gender).</li>
+<li>How common are certain errors (e.g., FP, FN).</li>
+<li>Performance on rare classes.</li>
+</ul>
+</li>
+<li>Establish metrics to assess performance against these issues on appropriate slices of data.</li>
+<li>Get business/product owner buy-in.</li>
+</ol>
+<h3 id="speech-recognition-example-1">Speech recognition example</h3>
+<ol>
+<li>Brainstorm the ways the system might go wrong.
+<ul>
+<li>Accuracy on different genders and ethnicities.</li>
+<li>Accuracy on different devices.</li>
+<li>Prevalence of rude mis-transcriptions.</li>
+</ul>
+</li>
+<li>Establish metrics to assess performance against these issues on appropriate slices of data.
+<ul>
+<li>Mean accuracy for different genders and major accents.</li>
+<li>Mean accuracy on different devices.</li>
+<li>Check for prevalence of offensive words in the output.</li>
+</ul>
+</li>
+</ol>
+<h2 id="data-iteration">Data iteration</h2>
+<h3 id="data-centric-ai-development">Data-centric AI development</h3>
+<ul>
+<li>Model-centric view: take the data you have, and develop a model that does as well as possible on it.
+<ul>
+<li>Hold the data fixed and iteratively improve the code/model.</li>
+</ul>
+</li>
+<li>Data-centric view: the quality of the data is paramount. Use tools to improve the data quality; this will allow multiple models to do well.
+<ul>
+<li>Hold the code fixed and iteratively improve the data.</li>
+</ul>
+</li>
+</ul>
+<h3 id="a-useful-picture-of-data-augmentation">A useful picture of data augmentation</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2018.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2018.png"></p>
+<h3 id="data-augmentation">Data augmentation</h3>
+<ul>
+<li>
+<p>Goal:</p>
+<ul>
+<li>Create realistic examples that (i) the algorithm does poorly on, but (ii) humans (or other baseline) do well on</li>
+</ul>
+</li>
+<li>
+<p>Checklist:</p>
+<ul>
+<li>Does it sound realistic?</li>
+<li>Is the x→ y mapping clear? (e.g. can humans recognize speech?)</li>
+<li>Is the algorithm currently doing poorly on it?</li>
+</ul>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2019.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2019.png"></p>
+</li>
+</ul>
+<h3 id="data-iteration-loop">Data iteration loop</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2020.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2020.png"></p>
+<h3 id="can-adding-data-hurt-performance">Can adding data hurt performance?</h3>
+<p>For unstructured data problems, if:</p>
+<ul>
+<li>The model is large (low bias).</li>
+<li>The mapping x→y is clear (e.g., given only the input x, humans can make accurate predictions).</li>
+</ul>
+<p>Then, adding data rarely hurts accuracy.</p>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2021.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2021.png"></p>
+<h3 id="adding-features-to-structured-data">Adding features to structured data</h3>
+<ul>
+<li>
+<p>Restaurant recommendation example:</p>
+<ul>
+<li>Vegan are frequently recommended restaurants with only meat options.</li>
+<li>Possible features to add?
+<ul>
+<li>Is person vegan (based on past orders)?</li>
+<li>Does restaurant have vegan options (based on menu)?</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Other food delivery examples</p>
+<ul>
+<li>Only tea/coffee and only pizza</li>
+<li>What are the added features that can help make a decision?</li>
+<li>Product recommendation:</li>
+</ul>
+<p>Collaborative filtering ——&gt; Content based filtering (cold-start)</p>
+</li>
+</ul>
+<h3 id="data-iteration-1">Data iteration</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2022.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2022.png"></p>
+<ul>
+<li>Error analysis can be harder if there is not good baseline (such as HLP) to compare to.</li>
+<li>Error analysis, user feedback and benchmarking to competitors can all provide inspiration for features to add.</li>
+</ul>
+<h3 id="experiment-tracking">Experiment tracking</h3>
+<ol>
+<li>What to track?
+<ul>
+<li>Algorithm/code versioning</li>
+<li>Dataset used</li>
+<li>Hyperparameters</li>
+<li>Results</li>
+</ul>
+</li>
+<li>Tracking tools
+<ul>
+<li>Text files</li>
+<li>spreadsheet</li>
+<li>Experiment tracking system</li>
+</ul>
+</li>
+<li>Desirable features
+<ul>
+<li>Information needed to replicate results</li>
+<li>Experiment results, ideally with summary metrics/analysis</li>
+<li>Perhaps also: resource monitoring, visualization, model error analysis</li>
+</ul>
+</li>
+</ol>
+<h3 id="from-big-data-to-good-data">From big data to good data</h3>
+<p>Try to ensure consistently high-quality data in all phases of the ML project lifecycly</p>
+<p>Good data:</p>
+<ul>
+<li>Covers important cases (good coverage of inputs x)</li>
+<li>Is defined consistently (definition of labels y is unambiguous)</li>
+<li>Has timely feedback from production data (distribution covers data drift and concept drift)</li>
+<li>Is sized appropriately</li>
+</ul>
+<h3 id="code-link--google-colabhttpscolabresearchgooglecomgithubhttps-deeplearning-aimlep-publicblobmaincourse1week2-ungraded-labc1w2_ungraded_lab_birds_cats_dogsipynb"><a href="https://colab.research.google.com/github/https-deeplearning-ai/MLEP-public/blob/main/course1/week2-ungraded-lab/C1W2_Ungraded_Lab_Birds_Cats_Dogs.ipynb" target="_blank" rel="noopener">Code Link : Google Colab</a></h3>
+<p>Reading Material Week 2:</p>
+<ul>
+<li><a href="https://blog.ml.cmu.edu/2020/08/31/3-baselines/" target="_blank" rel="noopener">Establishing a baseline</a></li>
+<li><a href="https://techcommunity.microsoft.com/t5/azure-ai/responsible-machine-learning-with-error-analysis/ba-p/2141774" target="_blank" rel="noopener">Error analysis</a></li>
+<li><a href="https://neptune.ai/blog/ml-experiment-tracking" target="_blank" rel="noopener">Experiment tracking</a></li>
+</ul>
+<h1 id="week-3-data-definition-and-baseline">Week 3: Data Definition and Baseline</h1>
+<h2 id="define-data-and-establish-baseline">Define Data and Establish Baseline</h2>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2023.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2023.png"></p>
+<h3 id="data-definition-questions">Data definition questions</h3>
+<ul>
+<li>What is the input x?
+<ul>
+<li>lightning? contrast? resolution?</li>
+<li>What features need to be in included?</li>
+</ul>
+</li>
+<li>What is the target label y?
+<ul>
+<li>How can we ensure labelers give consistent labels?</li>
+</ul>
+</li>
+</ul>
+<h3 id="major-types-of-data-problems">Major types of data problems</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2024.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2024.png"></p>
+<h3 id="unstructured-vs-structured-data">Unstructured vs. structured data</h3>
+<ul>
+<li>Unstructured data
+<ul>
+<li>may or may not have huge collection of unlabeled examples x.</li>
+<li>Humans can label more data.</li>
+<li>Data augmentation more likely to be helpful.</li>
+</ul>
+</li>
+<li>Structured data
+<ul>
+<li>May be more difficult to obtain more data.</li>
+<li>Human labelling may not be possible (with some exceptions)</li>
+</ul>
+</li>
+</ul>
+<h3 id="small-data-vs-big-data">Small data vs. big data</h3>
+<ul>
+<li>Small data
+<ul>
+<li>Clean labels are critical</li>
+<li>Can manually look through dataset and fix labels</li>
+<li>Can get all the labelers to talk to each other</li>
+</ul>
+</li>
+<li>Big data
+<ul>
+<li>Emphasis data process</li>
+</ul>
+</li>
+</ul>
+<h3 id="why-label-consistency-is-important">Why label consistency is important?</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2025.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2025.png"></p>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2026.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2026.png"></p>
+<h3 id="big-data-problems-can-have-small-data-challenges-too">Big data problems can have small data challenges too</h3>
+<p>Problems with a large dataset but where there&rsquo;s a long tail or rare events in the input will have small data challenges too.</p>
+<ul>
+<li>Web search</li>
+<li>Self-driving cars</li>
+<li>Product recommendation systems</li>
+</ul>
+<h3 id="improving-label-consistency">Improving label consistency</h3>
+<ul>
+<li>Have multiple labelers label same example.</li>
+<li>When there is disagreement, have MLE, subject matter expert (SME) and/or labelers discuss definition of y to reach agreement.</li>
+<li>If labelers believe that x doesn&rsquo;t contain enough information, consider changing x.</li>
+<li>Iterate until it is hard to significantly increase agreement</li>
+</ul>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2027.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2027.png"></p>
+<h3 id="have-a-classlabel-to-capture-uncertainty">Have a class/label to capture uncertainty</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2028.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2028.png"></p>
+<h3 id="small-data-vs-big-data-unstructured-data">Small data vs. big data (unstructured data)</h3>
+<ul>
+<li>Small data
+<ul>
+<li>Usually small number of labelers</li>
+<li>Can ask labelers to discuss specific labels</li>
+</ul>
+</li>
+<li>Big data
+<ul>
+<li>Get to consistent definition with a small group.</li>
+<li>Then send labeling instructions to labelers.</li>
+<li>Can consider having multiple labelers label every example and using voting or consensus labels to increase accuracy.</li>
+</ul>
+</li>
+</ul>
+<h3 id="why-measure-hlp">Why measure HLP?</h3>
+<p>Estimate Bayes error / irreducible error to help with error analysis and prioritization.</p>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2029.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2029.png"></p>
+<h3 id="other-uses-of-hlp">Other uses of HLP</h3>
+<ul>
+<li>In academia, establish and beat a respectable benchmark to support publication.</li>
+<li>Business or product owner asks for 99% accuracy. HLP helps establish a more reasonable target.</li>
+<li>&ldquo;Prove&rdquo; the ML system is superior to humans doing the job and thus the business or product owner should adopt it. (Use with caution)</li>
+</ul>
+<h3 id="the-problem-with-beating-hlp-as-a-proof-or-ml-superiority">The problem with beating HLP as a &lsquo;proof&rsquo; or ML &lsquo;superiority&rsquo;</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2030.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2030.png"></p>
+<h3 id="raising-hlp">Raising HLP</h3>
+<p>When the ground truth label is externally defined, HLP gives an estimate for Bayes error / irreducible error.</p>
+<p>But often ground truth is just anther human label.</p>
+<ul>
+<li>When the label y comes from a human label, HLP &laquo; 100% may indicate ambiguous labeling instructions.</li>
+<li>Improving label consistency will raise HLP</li>
+<li>This makes it harder for ML to beat HLP. But the more consistent labels will raise ML performance, which is ultimately likely to benefit the actual application performance.</li>
+</ul>
+<h3 id="hlp-on-structured-data">HLP on structured data</h3>
+<p>Structured data problems are less likely to involve human labelers, thus HLP is less frequently used.</p>
+<p>Some exceptions:</p>
+<ul>
+<li>User ID merging: same person?</li>
+<li>Based on network traffic, is the computer hacked?</li>
+<li>Is the transaction fraudulent?</li>
+<li>Spam account? Bot?</li>
+<li>From GPS, what is the mode transportation - on foot, bike, car, bus?</li>
+</ul>
+<h2 id="label-and-organize-data">Label and Organize Data</h2>
+<h3 id="how-long-should-you-spend-obtaining-data">How long should you spend obtaining data?</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2031.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2031.png"></p>
+<ul>
+<li>Get into this iteration loop as quickly as possible.</li>
+<li>Instead of asking: how long it would take to obtain m examples? ask: How much data can we obtain in k days.</li>
+<li>Exception: if you have worked on the problem before and from experience you know you need m examples.</li>
+</ul>
+<h3 id="inventory-data">Inventory data</h3>
+<p>Brainstorm list of data sources</p>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2032.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2032.png"></p>
+<p>Other factors: data quality, privacy, regulatory constrains</p>
+<h3 id="labeling-data">Labeling data</h3>
+<ul>
+<li>Options: in-house vs. outsourced vs. crowdsourced</li>
+<li>Having MLEs label data expensive. But doing this for just a few days is usually fine</li>
+<li>Who is qualified to label?
+<ul>
+<li>Speech recognition - any reasonable fluent speaker</li>
+<li>Factory inspection, medical image diagnosis - SME (subject matter expert)</li>
+<li>Recommender systems - maybe impossible to label well</li>
+</ul>
+</li>
+<li>Don&rsquo;t increase data by more than 10x at a time</li>
+</ul>
+<h3 id="data-pipeline-example">Data pipeline example</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2033.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2033.png"></p>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2034.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2034.png"></p>
+<h3 id="poc-and-production-phases">POC and Production phases</h3>
+<ul>
+<li>POC(proof-of-concept):
+<ul>
+<li>Goal is to decide if the application is workable and worth deploying.</li>
+<li>Focus on getting the prototype to work</li>
+<li>It&rsquo;s ok if data pre-processing is manual. But take extensive notes/comments</li>
+</ul>
+</li>
+<li>Production phase:</li>
+<li>After project utility is established, use more sophisticated tools to make sure the data pipeline is replicable.</li>
+<li>E.g., Tensor Flow Transform, Apache Beam, Airflow, &hellip;</li>
+</ul>
+<h3 id="data-pipeline-example-1">Data pipeline example</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2035.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2035.png"></p>
+<h3 id="meta-data">Meta-data</h3>
+<ul>
+<li>Examples:
+<ul>
+<li>Manufacturing visual inspection: time, factory, line #, camera settings, phone model, inspector ID,&hellip;</li>
+<li>Speech recognition: device type, labeler ID, VAD model ID,&hellip;</li>
+</ul>
+</li>
+<li>Useful for:
+<ul>
+<li>Error analysis. Spotting unexpected effects.</li>
+<li>Keeping track of data provenance.</li>
+</ul>
+</li>
+</ul>
+<h3 id="balanced-traindevtest-splits-in-small-data-problems">Balanced train/dev/test/ splits in small data problems</h3>
+<p>Visual inspection example: 100 examples, 30 positive (defective)</p>
+<ul>
+<li>Train/dev/test: 60%/20%/20%</li>
+<li>Random split: positive example: 21/2/7 (35%/10%/35%)→ dev set is not representative</li>
+<li>Want: 18/6/6 (30%/30%/30%) →balanced split</li>
+<li>No need to worry about this with large datasets - a random split will be representative</li>
+</ul>
+<h2 id="scooping">Scooping</h2>
+<h3 id="what-is-scoping">What is scoping?</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2036.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2036.png"></p>
+<h3 id="scoping-process">Scoping process</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2037.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2037.png"></p>
+<h3 id="separating-problem-identification-from">Separating problem identification from</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2038.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2038.png"></p>
+<h3 id="feasibility-is-this-project-technically-feasible">Feasibility: Is this project technically feasible?</h3>
+<ul>
+<li>Use external benchmark (literature, other company, competitor)</li>
+</ul>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2039.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2039.png"></p>
+<h3 id="why-use-hlp-to-benchmark">Why use HLP to benchmark?</h3>
+<p>People are very good on unstructured data tasks</p>
+<p>Criteria: can a human, given the same data, perform the task?</p>
+<h3 id="do-we-have-features-that-are-predictive">Do we have features that are predictive?</h3>
+<ul>
+<li>Given past purchases, predict future purchases ✅</li>
+<li>Given weather, predict shopping mall foot traffic ✅</li>
+<li>Given DNA info, predict heart disease ❓</li>
+<li>Given social media chatter, predict demand for a clothing style ❓</li>
+<li>Given history of stock&rsquo;s price, predict future price of that stock ❌</li>
+</ul>
+<h3 id="history-of-project">History of project</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2040.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2040.png"></p>
+<h3 id="diligence-on-value">Diligence on value</h3>
+<p><img src="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2041.png" alt="Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Prod%2055eeb7a65b57401ba9ba2321757b925b/Untitled%2041.png"></p>
+<h3 id="ethical-considerations">Ethical considerations</h3>
+<ul>
+<li>Is this project creating net positive societal value?</li>
+<li>Is this project reasonable fair and free from bias?</li>
+<li>Have any ethical concerns been openly aired and debated?</li>
+</ul>
+<h3 id="milestones--resourcing">Milestones &amp; Resourcing</h3>
+<p>Key specifications:</p>
+<ul>
+<li>ML metrics (accuracy, precision/recall, etc.)</li>
+<li>Software metrics (latency, throughput, etc. given compute resources)</li>
+<li>Business metrics (revenue, etc.)</li>
+<li>Resources needed (data, personnel, help from other teams)</li>
+<li>Timeline</li>
+</ul>
+<p>If unsure, consider benchmarking to other projects, or building a POC (Proof of Concept) first.</p>
+<h3 id="colab-httpswwwcourseraorglearnintroduction-to-machine-learning-in-productionungradedlabhndmkdata-labelinglabhttpswwwcourseraorglearnintroduction-to-machine-learning-in-productionungradedlabhndmkdata-labelinglab">Colab: <a href="https://www.coursera.org/learn/introduction-to-machine-learning-in-production/ungradedLab/hnDmK/data-labeling/lab" target="_blank" rel="noopener">https://www.coursera.org/learn/introduction-to-machine-learning-in-production/ungradedLab/hnDmK/data-labeling/lab</a></h3>
+<p>Reading Material Week 3:</p>
+<p><a href="https://csgaobb.github.io/Projects/DLDL.html" target="_blank" rel="noopener">Label ambiguity</a></p>
+<p><a href="https://arxiv.org/pdf/1706.06969.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1706.06969.pdf</a></p>
+<p><a href="https://cs230.stanford.edu/blog/datapipeline/" target="_blank" rel="noopener">Data pipelines</a></p>
+<p><a href="https://blog.tensorflow.org/2021/01/ml-metadata-version-control-for-ml.html" target="_blank" rel="noopener">Data lineage</a></p>
+<p><a href="https://cloud.google.com/blog/products/ai-machine-learning/key-requirements-for-an-mlops-foundation" target="_blank" rel="noopener">MLops</a></p>
+<p>Overall resources:</p>
+<p>Konstantinos, Katsiapis, Karmarkar, A., Altay, A., Zaks, A., Polyzotis, N., … Li, Z. (2020). Towards ML Engineering: A brief history of TensorFlow Extended (TFX). <a href="http://arxiv.org/abs/2010.02013" target="_blank" rel="noopener">http://arxiv.org/abs/2010.02013</a></p>
+<p>Paleyes, A., Urma, R.-G., &amp; Lawrence, N. D. (2020). Challenges in deploying machine learning: A survey of case studies. <a href="http://arxiv.org/abs/2011.09926" target="_blank" rel="noopener">http://arxiv.org/abs/2011.09926</a></p>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/python/">Python</a>
+  
+  <a class="badge badge-light" href="/tag/machine-learning/">Machine learning</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/mlops1/&amp;text=Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Production%20%28MLOps1%29%20on%20Coursera/Deeplearning.ai" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/mlops1/&amp;t=Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Production%20%28MLOps1%29%20on%20Coursera/Deeplearning.ai" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Production%20%28MLOps1%29%20on%20Coursera/Deeplearning.ai&amp;body=/post/mlops1/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/mlops1/&amp;title=Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Production%20%28MLOps1%29%20on%20Coursera/Deeplearning.ai" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Production%20%28MLOps1%29%20on%20Coursera/Deeplearning.ai%20/post/mlops1/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/mlops1/&amp;title=Notes%20for%20Introduction%20to%20Machine%20Learning%20in%20Production%20%28MLOps1%29%20on%20Coursera/Deeplearning.ai" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="avatar mr-3 avatar-square" src="/author/yufei-zhao/avatar_hub2d2ba509bb5e359b836d762ea32b046_94711_270x270_fill_q75_lanczos_center.jpg" alt="Yufei Zhao">
+    
+
+    <div class="media-body">
+      <h5 class="card-title">Yufei Zhao</h5>
+      <h6 class="card-subtitle">PhD Candidate</h6>
+      
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:yzhao17@uoregon.edu" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/_zhaoyufei" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/irisfee" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/yufei-zhao-4abb40ab" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+<section id="comments">
+  
+    
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "zhaoyufei" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+</section>
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/project/hitsong/">Building API for Predicting Mando-pop Popularity</a></li>
+      
+      <li><a href="/post/mlops2/">Notes for Machine Learning Data Lifecycle in Production (MLOps2) on Coursera/Deeplearning.ai</a></li>
+      
+      <li><a href="/project/nsd/">Decoding memory content from human parietal cortex: VGG16 application on memory research</a></li>
+      
+      <li><a href="/post/ref-data-science/">Books/video courses recommendation for data science related coding/machine learning/stats</a></li>
+      
+      <li><a href="/project/color-differentiation/">Efficient way of the brain for resolving similar memory interference</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+  <p class="powered-by">
+    Yufei Zhao ©2021 &middot; 
+    Code with ❤️ and 🍵. Powered by R <a href="https://bookdown.org/yihui/blogdown/" target="_blank" rel="noopener">Blogdown</a> and the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/latex.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js" integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'event' : "Events",
+        'slides' : "Slides"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    <script id="dsq-count-scr" src="https://zhaoyufei.disqus.com/count.js" async></script>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/js/wowchemy.min.572b7caf7fe601716a0f74d67d754c21.js"></script>
+
+    
+
+
+
+
+
+
+</body>
+</html>

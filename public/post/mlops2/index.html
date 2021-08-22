@@ -1,0 +1,2480 @@
+<!DOCTYPE html><html lang="en-us" >
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  
+  
+  <meta name="generator" content="Wowchemy 5.0.0-beta.1 for Hugo">
+  
+
+  
+
+  
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Yufei Zhao">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Here is the note I took for the second course of the Machine Learning Engineering for Production (MLOps) Specialization. In this course, I learned how to accomplish data collection for ML production system, implement feature engineering, transformation, and selection with TensorFlow Extended, and establish the data lifecycle by leveraging data lineage and provenance metadata tools and follow data evolution with enterprise data schemas.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/mlops2/">
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+
+  
+  
+  
+  <meta name="theme-color" content="rgb(251, 191, 183)">
+  
+
+  
+  
+  
+  <script src="/js/mathjax-config.js"></script>
+  
+
+  
+  
+  
+  
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.0/css/academicons.min.css" integrity="sha512-W4yqoT1+8NLkinBLBZko+dFB2ZbHsYLDdr50VElllRcNt2Q4/GSs6u71UHKxB7S6JEMCp5Ve4xjh3eGQl/HRvg==" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha256-FMvZuGapsJLjouA6k7Eo2lusoAX9i0ShlWFG6qt7SLc=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.css" integrity="sha512-1xoFisiGdy9nvho8EgXuXvnpR5GAMSjFwp40gSRE3NwdUdIMIKuPa7bqoUhLD0O/5tPNhteAsE5XyyMi5reQVA==" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.2.2/lazysizes.min.js" integrity="sha512-TmDwFLhg3UA4ZG0Eb4MIyT1O1Mb+Oww5kFG0uHqXsdbyZz9DcvYQhKpGgNkamAI6h2lGGZq2X8ftOJvF/XjTUg==" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" integrity="" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+    
+      
+      
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cutive+Mono%7CLora:400,700%7CRoboto:400,700&display=swap">
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.e61a13a3db7408951e9f1ca8976d48ae.css">
+
+  
+
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NBKV8F2XP3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+      dataLayer.push(arguments);
+  }
+
+  function trackOutboundLink(url, target) {
+    gtag('event', 'click', {
+         'event_category': 'outbound',
+         'event_label': url,
+         'transport_type': 'beacon',
+         'event_callback': function () {
+           if (target !== '_blank') {
+             document.location = url;
+           }
+         }
+    });
+    console.debug("Outbound link clicked: " + url);
+  }
+
+  function onClickCallback(event) {
+    if ((event.target.tagName !== 'A') || (event.target.host === window.location.host)) {
+      return;
+    }
+    trackOutboundLink(event.target, event.target.getAttribute('target'));  
+  }
+
+  gtag('js', new Date());
+  gtag('config', 'G-NBKV8F2XP3', {});
+
+  
+  document.addEventListener('click', onClickCallback, false);
+</script>
+
+
+  
+
+  
+
+
+  
+  
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu8daf07698441511167650349ca463977_8870_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu8daf07698441511167650349ca463977_8870_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="/post/mlops2/">
+
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@_zhaoyufei">
+  <meta property="twitter:creator" content="@_zhaoyufei">
+  
+  <meta property="og:site_name" content="Yufei Zhao | 赵雨菲">
+  <meta property="og:url" content="/post/mlops2/">
+  <meta property="og:title" content="Notes for Machine Learning Data Lifecycle in Production (MLOps2) on Coursera/Deeplearning.ai | Yufei Zhao | 赵雨菲">
+  <meta property="og:description" content="Here is the note I took for the second course of the Machine Learning Engineering for Production (MLOps) Specialization. In this course, I learned how to accomplish data collection for ML production system, implement feature engineering, transformation, and selection with TensorFlow Extended, and establish the data lifecycle by leveraging data lineage and provenance metadata tools and follow data evolution with enterprise data schemas."><meta property="og:image" content="/post/mlops2/featured.png">
+  <meta property="twitter:image" content="/post/mlops2/featured.png"><meta property="og:locale" content="en-us">
+  
+    
+      <meta property="article:published_time" content="2021-06-30T14:13:39-07:00">
+    
+    <meta property="article:modified_time" content="2021-06-30T14:13:39-07:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/mlops2/"
+  },
+  "headline": "Notes for Machine Learning Data Lifecycle in Production (MLOps2) on Coursera/Deeplearning.ai",
+  
+  "image": [
+    "/post/mlops2/featured.png"
+  ],
+  
+  "datePublished": "2021-06-30T14:13:39-07:00",
+  "dateModified": "2021-06-30T14:13:39-07:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Yufei Zhao"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Yufei Zhao | 赵雨菲",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/images/icon_hu8daf07698441511167650349ca463977_8870_192x192_fill_lanczos_center_2.png"
+    }
+  },
+  "description": "Here is the note I took for the second course of the Machine Learning Engineering for Production (MLOps) Specialization. In this course, I learned how to accomplish data collection for ML production system, implement feature engineering, transformation, and selection with TensorFlow Extended, and establish the data lifecycle by leveraging data lineage and provenance metadata tools and follow data evolution with enterprise data schemas."
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>Notes for Machine Learning Data Lifecycle in Production (MLOps2) on Coursera/Deeplearning.ai | Yufei Zhao | 赵雨菲</title>
+
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper  ">
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.1df0392aab543464b23a85146803aaf2.js"></script>
+
+  
+
+<aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control">
+        
+      </div>
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Yufei Zhao | 赵雨菲</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Yufei Zhao | 赵雨菲</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-end" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/project_landing"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link  active" href="/post"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/publication_landing"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/gallery"><span>Gallery</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Notes for Machine Learning Data Lifecycle in Production (MLOps2) on Coursera/Deeplearning.ai</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+  
+  
+  <span class="article-date">
+    
+    
+    2021-06-30
+  </span>
+  
+
+
+  
+
+  
+
+  
+  
+  
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/mlops2/#disqus_thread"></a>
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <h1 id="week1">Week1</h1>
+<h2 id="introduction-to-machine-learning-engineering-in-production">Introduction to Machine Learning Engineering in Production</h2>
+<h3 id="managing-the-entire-life-cycle-of-data">Managing the entire life cycle of data</h3>
+<ul>
+<li>Labeling</li>
+<li>Feature space coverage</li>
+<li>Minimal dimensionality</li>
+<li>Maximum predictive data</li>
+<li>Fairness</li>
+<li>Rare conditions</li>
+</ul>
+<h3 id="modern-software-development">Modern software development</h3>
+<p>Accounts for:</p>
+<ul>
+<li>Scalability</li>
+<li>Extensibility</li>
+<li>Configureation</li>
+<li>Consistency &amp; reproducibility</li>
+<li>Safety &amp; security</li>
+<li>Modularity</li>
+<li>Testability</li>
+<li>Monitoring</li>
+<li>Best practice</li>
+</ul>
+<h3 id="production-machine-learning-system">Production machine learning system</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled.png"></p>
+<h3 id="challenges-in-production-grade-ml">Challenges in production grade ML</h3>
+<ul>
+<li>Build integrated ML systems</li>
+<li>Continuously operate it in production</li>
+<li>Handle continuously changing data</li>
+<li>Optimize compute resource costs</li>
+</ul>
+<h3 id="production-ml-infrastructure">Production ML infrastructure</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%201.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%201.png"></p>
+<h3 id="directed-acyclic-graphs">Directed acyclic graphs</h3>
+<ul>
+<li>A directed acyclic graph (DAG) is a directed graph that has no cycles</li>
+<li>ML pipeline workflows are usually DAGs.</li>
+<li>DAGs define the sequencing of the tasks to be performed, based on their relationships and dependencies.</li>
+</ul>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%202.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%202.png"></p>
+<h3 id="pipeline-orchestration-frameworks">Pipeline orchestration frameworks</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%203.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%203.png"></p>
+<ul>
+<li>Responsible for scheduling the various components in an ML pipeline DAG dependencies</li>
+<li>Help with pipeline automation</li>
+<li>Examples: Airflow, Argo, Celery, Luigi, Kubeflow</li>
+</ul>
+<h3 id="tensorflow-extended-tfx">TensorFlow Extended (TFX)</h3>
+<p>End-to-end platform for deploying production ML pipelines.</p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%204.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%204.png"></p>
+<p>Sequence of components that are designed for scalable, high-performance machine learning tasks.</p>
+<h3 id="tfx-production-components">TFX production components</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%205.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%205.png"></p>
+<h3 id="tfx-hello-world">TFX Hello World</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%206.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%206.png"></p>
+<h3 id="key-points">Key points</h3>
+<ul>
+<li>Production ML pipelines: automating, monitoring, and maintaining end-to-end processes</li>
+<li>Production ML is much more than just ML code
+<ul>
+<li>ML development + software development</li>
+</ul>
+</li>
+<li>TFX is an open-source end-to-end ML platform</li>
+</ul>
+<h2 id="collecting-data">Collecting Data</h2>
+<h3 id="ml-data-is-a-first-class-citizen">ML: Data is a first class citizen</h3>
+<ul>
+<li>
+<p>Software 1.0</p>
+<ul>
+<li>Explicit instructions to the computer</li>
+</ul>
+</li>
+<li>
+<p>Software 2.0</p>
+<ul>
+<li>Specify some goal on the behavior of a program</li>
+<li>Find solution using optimization techniques</li>
+<li>Good data is key for success</li>
+<li>Code in Software = Data in ML</li>
+</ul>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%207.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%207.png"></p>
+</li>
+</ul>
+<h3 id="everything-starts-with-data">Everything starts with data</h3>
+<ul>
+<li>Models aren&rsquo;t magic</li>
+<li>Meaningful data:
+<ul>
+<li>maximize predictive content</li>
+<li>remove non-informative data</li>
+<li>feature space coverage</li>
+</ul>
+</li>
+</ul>
+<h3 id="data-pipeline">Data pipeline</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%208.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%208.png"></p>
+<h3 id="data-collection-and-monitoring">Data collection and monitoring</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%209.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%209.png"></p>
+<h3 id="key-points-1">Key points</h3>
+<ul>
+<li>Understand users, translate user needs into data problems</li>
+<li>Ensure data coverage and high predictive signal</li>
+<li>Source, store and monitor quality data responsibly</li>
+</ul>
+<h3 id="example-application-suggesting-runs">Example application: suggesting runs</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2010.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2010.png"></p>
+<h3 id="key-considerations">Key considerations</h3>
+<ul>
+<li>Data availability and collection
+<ul>
+<li>What kind of /how much data is available?</li>
+<li>how often does the new data come in?</li>
+<li>Is it annotated?
+<ul>
+<li>If not, how hard/expensive is it to get it labeled?</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Translate user needs into data needs
+<ul>
+<li>Data needed</li>
+<li>Features needed</li>
+<li>Labels needed</li>
+</ul>
+</li>
+</ul>
+<h3 id="example-dataset">Example dataset</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2011.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2011.png"></p>
+<h3 id="get-to-know-your-data">Get to know your data</h3>
+<ul>
+<li>Identify data sources</li>
+<li>check if they are refreshed</li>
+<li>Consistency for values, units, and types</li>
+<li>Monitor outliers and errors</li>
+</ul>
+<h3 id="dataset-issues">Dataset issues</h3>
+<ul>
+<li>Inconsistent formatting
+<ul>
+<li>Is zero &lsquo;&lsquo;0&quot;, &ldquo;0.0&rdquo;, or an indicator of a missing measurement</li>
+</ul>
+</li>
+<li>Compounding errors from other ML models</li>
+<li>Monitor data sources for system issues and outages</li>
+</ul>
+<h3 id="measure-data-effectiveness">Measure data effectiveness</h3>
+<ul>
+<li>Intuition about data value can misleading
+<ul>
+<li>Which features have predictive value and which ones do not?</li>
+</ul>
+</li>
+<li>Feature engineering helps to maximize the predictive signals</li>
+<li>Feature selection helps to measure the predictive signals</li>
+</ul>
+<h3 id="translate-user-needs-into-data-needs">Translate user needs into data needs</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2012.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2012.png"></p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2013.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2013.png"></p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2014.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2014.png"></p>
+<h3 id="key-points-2">Key points</h3>
+<ul>
+<li>Understand your user, translate their needs into data problems
+<ul>
+<li>What kind of / how much data is available</li>
+<li>What are the details and issues of your data</li>
+<li>What are your predictive features</li>
+<li>What are the labels you are tracking</li>
+<li>What are your metrics</li>
+</ul>
+</li>
+</ul>
+<h3 id="avoiding-problematic-biases-in-datasets">Avoiding problematic biases in datasets</h3>
+<h3 id="source-data-responsibly">Source data responsibly</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2015.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2015.png"></p>
+<h3 id="data-security-and-privacy">Data security and privacy</h3>
+<ul>
+<li>Data collection and management isn&rsquo;t just about your model
+<ul>
+<li>Give user control of what data can be collected</li>
+<li>Is there a risk of inadvertently revealing user data?</li>
+</ul>
+</li>
+<li>Compliance with regulations and policies (e.g. GDPR)</li>
+</ul>
+<h3 id="users-privacy">Users privacy</h3>
+<ul>
+<li>Protect personally identifiable information
+<ul>
+<li>Aggregation - replace unique values with summary value</li>
+<li>Redaction - remove some data to create less complete picture</li>
+</ul>
+</li>
+</ul>
+<h3 id="how-ml-systems-can-fail-users">How ML systems can fail users</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2016.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2016.png"></p>
+<ul>
+<li>Representational Harm</li>
+<li>Opportunity denial</li>
+<li>Disproportionate product failure</li>
+<li>Harm by disadvantage</li>
+</ul>
+<h3 id="commit-to-fairness">Commit to fairness</h3>
+<ul>
+<li>Make sure your models are fair
+<ul>
+<li>Group fairness, equal accuracy</li>
+</ul>
+</li>
+<li>Bias in human labeled and/or collected data</li>
+<li>ML models can amplify biases</li>
+</ul>
+<h3 id="reducing-bias-design-fair-labeling-systems">Reducing bias: design fair labeling systems</h3>
+<ul>
+<li>Accurate labels are necessary for supervised learning</li>
+<li>Labeling can be done by:
+<ul>
+<li>Automation (logging or weak supervision)</li>
+<li>Humans (aka &ldquo;raters&rdquo;, often semi-supervised)</li>
+</ul>
+</li>
+</ul>
+<h3 id="types-of-human-raters">Types of human raters</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2017.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2017.png"></p>
+<h3 id="key-points-3">Key points</h3>
+<ul>
+<li>Ensure raters pool diversity</li>
+<li>Investigate rater context and incentives</li>
+<li>Evaluate rater tools</li>
+<li>Manage cost</li>
+<li>Determine freshness requirements</li>
+</ul>
+<h2 id="labeling-data">Labeling Data</h2>
+<h3 id="case-study-taking-action">Case study: taking action</h3>
+<ul>
+<li>How to detect problems early on?</li>
+<li>What are the possible causes?</li>
+<li>What can be done to solve these?</li>
+</ul>
+<h3 id="what-causes-problesm">What causes problesm?</h3>
+<p>kinds of problems:</p>
+<ul>
+<li>Slow: drift</li>
+<li>Fast: bad sensor, bad software update</li>
+</ul>
+<h3 id="gradual-problems">Gradual problems</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2018.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2018.png"></p>
+<h3 id="sudden-problems">Sudden problems</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2019.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2019.png"></p>
+<h3 id="why-understand-the-model">Why &ldquo;understand&rdquo; the model?</h3>
+<ul>
+<li>Mispredictions do not have uniform cost to your business</li>
+<li>The data you have is rarely the data you wish you had</li>
+<li>Model objective is nearly always a proxy for your business objectives</li>
+<li>Some percentage of your customers may have a bad experience</li>
+</ul>
+<h3 id="detecting-problems-with-deployed-models">Detecting problems with deployed models</h3>
+<ul>
+<li>Data and scope changes</li>
+<li>Monitor models and validate data to find problems early</li>
+<li>Changing ground truth: label new training data</li>
+</ul>
+<h3 id="easy-problems">Easy problems</h3>
+<ul>
+<li>Ground truth changes slowly (months, years)</li>
+<li>Model retraining driven by:
+<ul>
+<li>Model improvements, better data</li>
+<li>Changes in software and/or systems</li>
+</ul>
+</li>
+<li>Labeling
+<ul>
+<li>Curated datasets</li>
+<li>Crowed-based</li>
+</ul>
+</li>
+</ul>
+<h3 id="harder-problems">Harder problems</h3>
+<ul>
+<li>Ground truth changes faster (weeks)</li>
+<li>Model retraining driven by:
+<ul>
+<li>Declining model performance</li>
+<li>Model improvements, better data</li>
+<li>Changes in software and/or system</li>
+</ul>
+</li>
+<li>Labeling
+<ul>
+<li>Direct feedback</li>
+<li>Crowd-based</li>
+</ul>
+</li>
+</ul>
+<h3 id="really-hard-problems">Really hard problems</h3>
+<ul>
+<li>Ground truth changes very fast (days, hours, min)</li>
+<li>Model retraining driven by:
+<ul>
+<li><strong>Declining model performance</strong></li>
+<li>Model improvements, better data</li>
+<li>Changes in software and/or system</li>
+</ul>
+</li>
+<li>Labeling
+<ul>
+<li>Direct feedback</li>
+<li>Weak supervision</li>
+</ul>
+</li>
+</ul>
+<h3 id="key-points-4">Key points</h3>
+<ul>
+<li>Model performance decays over time
+<ul>
+<li>Data and concept drift</li>
+</ul>
+</li>
+<li>Model retraining helps to improve performance
+<ul>
+<li>Data labeling for changing ground truth and scarce labels</li>
+</ul>
+</li>
+</ul>
+<h3 id="data-labeling">Data labeling</h3>
+<p>Variety of Methods</p>
+<ul>
+<li>Process Feedback (Direct labeling)</li>
+<li>Human labeling</li>
+<li>Semi-supervised labeling</li>
+<li>Active learning</li>
+<li>Weak supervision</li>
+</ul>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2020.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2020.png"></p>
+<h3 id="why-is-labeling-important-in-production-ml">Why is labeling important in production ML?</h3>
+<ul>
+<li>using business/organization available data</li>
+<li>Frequent model retraining</li>
+<li>Labeling ongoing and critical process</li>
+<li>Creating a training datasets requires labels</li>
+</ul>
+<h3 id="direct-labeling-continuous-creation-of-training-dataset">Direct labeling: continuous creation of training dataset</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2021.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2021.png"></p>
+<h3 id="process-feedback---advantages">Process feedback - advantages</h3>
+<ul>
+<li>Training dataset continuous creation</li>
+<li>Labels evolve quickly</li>
+<li>Captures strong label signals</li>
+</ul>
+<h3 id="process-feedback--disadantages">Process feedback -disadantages</h3>
+<ul>
+<li>Hindered by inherent nature of the problem</li>
+<li>Failure to capture ground truth</li>
+<li>Largely bespoke design</li>
+</ul>
+<h3 id="process-feedback--open-source-log-analysis-tools">Process feedback- Open-source log analysis tools</h3>
+<p>Logstash: free and open source data processing pipeline</p>
+<ul>
+<li>Ingests data from a multitude of sources</li>
+<li>Transforms it</li>
+<li>Sends it to your favorite &ldquo;stash&rdquo;</li>
+</ul>
+<p>Fluentd</p>
+<ul>
+<li>Open source data collector</li>
+<li>Unify the data collection and consumption</li>
+</ul>
+<h3 id="process-feedback-cloud-log-analytics">Process feedback-Cloud log analytics</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2022.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2022.png"></p>
+<h3 id="human-labeling">Human labeling</h3>
+<p>People (&lsquo;raters&rsquo;) to examine data and assign labels manually</p>
+<p>Methodology:</p>
+<ul>
+<li>Unlabeled data is collected</li>
+<li>Human (&lsquo;raters&rsquo;) are recruited</li>
+<li>Instructions to guide raters are created</li>
+<li>Data is divided and assigned to raters</li>
+<li>Labels are collected and conflicts resolved</li>
+</ul>
+<h3 id="human-labeling---advantages">Human labeling - advantages</h3>
+<ul>
+<li>More labels</li>
+<li>Pure supervised learning</li>
+</ul>
+<h3 id="human-labeling---disadvantages">Human labeling - disadvantages</h3>
+<ul>
+<li>Quality consistency: many datasets difficult for human labeling</li>
+<li>Slow</li>
+<li>Expensive</li>
+<li>Small dataset curation</li>
+</ul>
+<h2 id="validating-data">Validating Data</h2>
+<h3 id="drift-and-skew">Drift and skew</h3>
+<p>Drift: changes in data over time, such as data collected once a day</p>
+<p>Skew: Difference between two static versions, or different sources, such as training set and serving set</p>
+<h3 id="typical-ml-pipeline">Typical ML pipeline</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2023.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2023.png"></p>
+<h3 id="model-decay-data-drift">Model decay: data drift</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2024.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2024.png"></p>
+<h3 id="performance-decay-concept-drift">Performance decay: concept drift</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2025.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2025.png"></p>
+<h3 id="detecting-data-issues">Detecting data issues</h3>
+<ul>
+<li>Detecting schema skew
+<ul>
+<li>Training and serving data do not conform to be the same schema</li>
+</ul>
+</li>
+<li>Detecting distribution skew
+<ul>
+<li>Dataset shift → covariate or concept shift</li>
+</ul>
+</li>
+<li>Requires continuous evaluation</li>
+</ul>
+<h3 id="detecting-distribution-skew">Detecting distribution skew</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2026.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2026.png"></p>
+<h3 id="skew-detection-workflow">Skew detection workflow</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2027.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2027.png"></p>
+<h3 id="tensorflow-data-validation-tfdv">TensorFlow Data Validation (TFDV)</h3>
+<ul>
+<li>Understand, validate, and monitor ML data at scale</li>
+<li>Used to analyze and validate petabytes of data at google every day</li>
+<li>Proven track record in helping TFX users maintain the health of their ML pipelines</li>
+</ul>
+<h3 id="tfdv-capabilities">TFDV capabilities</h3>
+<ul>
+<li>Generates data statistics and browser visualizations</li>
+<li>Infers the data schema</li>
+<li>Performs validity checks against schema</li>
+<li>Detects training/serving skew</li>
+</ul>
+<h3 id="skew--detection---tfdv">Skew  detection - TFDV</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2028.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2028.png"></p>
+<h3 id="skew--tfdv">Skew -TFDV</h3>
+<ul>
+<li>
+<p>Supported for categorical features</p>
+</li>
+<li>
+<p>Expressed in terms of L-infinity distance (Chebyshev Distance):</p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2029.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2029.png"></p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2030.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2030.png"></p>
+</li>
+<li>
+<p>Set a threshold to receive warnings</p>
+</li>
+</ul>
+<h3 id="schema-skew">Schema skew</h3>
+<p>Serving and training data don&rsquo;t conform to same schema: int ≠ float</p>
+<h3 id="feature-skew">Feature skew</h3>
+<p>Training feature values are different than the serving feature values:</p>
+<ul>
+<li>Feature values are modified between training and serving time</li>
+<li>Transformation applied only in one of the two instances</li>
+</ul>
+<h3 id="distribution-skew">Distribution skew</h3>
+<p>Distribution of serving and training dataset is significantly different:</p>
+<ul>
+<li>Faulty sampling method during training</li>
+<li>Different data sources for training and serving data</li>
+<li>Trend, seasonality, changes in data over time</li>
+</ul>
+<h3 id="key-points-5">Key points</h3>
+<ul>
+<li>TFDV: descriptive statistics at scale with the embedded facets visualizations</li>
+<li>It provides insight into:
+<ul>
+<li>What are the underlying statistics of your data</li>
+<li>How does your training, evaluation, and serving dataset statistics compare</li>
+<li>How can you detect and fix data anomalies</li>
+</ul>
+</li>
+</ul>
+<h2 id="readings">Readings:</h2>
+<p><a href="https://cd.foundation/blog/2020/02/11/announcing-the-cd-foundation-mlops-sig/" target="_blank" rel="noopener">MLops</a></p>
+<p><a href="https://medium.com/@karpathy/software-2-0-a64152b37c35" target="_blank" rel="noopener">Data 1st class citizen</a></p>
+<p><a href="https://pair.withgoogle.com/chapter/data-collection/" target="_blank" rel="noopener">Runners app</a></p>
+<p><a href="https://developers.google.com/machine-learning/guides/rules-of-ml" target="_blank" rel="noopener">Rules of ML</a></p>
+<p><a href="https://ai.googleblog.com/2018/09/introducing-inclusive-images-competition.html" target="_blank" rel="noopener">Bias in datasets</a></p>
+<p><a href="https://www.elastic.co/logstash" target="_blank" rel="noopener">Logstash</a></p>
+<p><a href="https://www.fluentd.org/" target="_blank" rel="noopener">Fluentd</a></p>
+<p><a href="https://cloud.google.com/logging/" target="_blank" rel="noopener">Google Cloud Logging</a></p>
+<p><a href="https://aws.amazon.com/elasticsearch-service/" target="_blank" rel="noopener">AWS ElasticSearch</a></p>
+<p><a href="https://azure.microsoft.com/en-us/services/monitor/" target="_blank" rel="noopener">Azure Monitor</a></p>
+<p><a href="https://blog.tensorflow.org/2018/09/introducing-tensorflow-data-validation.html" target="_blank" rel="noopener">TFDV</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Chebyshev_distance" target="_blank" rel="noopener">Chebyshev distance</a></p>
+<p><strong>Papers</strong></p>
+<p>Konstantinos, Katsiapis, Karmarkar, A., Altay, A., Zaks, A., Polyzotis, N., … Li, Z. (2020). Towards ML Engineering: A brief history of TensorFlow Extended (TFX). <a href="http://arxiv.org/abs/2010.02013" target="_blank" rel="noopener">http://arxiv.org/abs/2010.02013</a></p>
+<p>Paleyes, A., Urma, R.-G., &amp; Lawrence, N. D. (2020). Challenges in deploying machine learning: A survey of case studies. <a href="http://arxiv.org/abs/2011.09926" target="_blank" rel="noopener">http://arxiv.org/abs/2011.09926</a></p>
+<p>ML code fraction:</p>
+<p>Sculley, D., Holt, G., Golovin, D., Davydov, E., &amp; Phillips, T. (n.d.). Hidden technical debt in machine learning systems. Retrieved April 28, 2021, from Nips.cc <a href="https://papers.nips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf" target="_blank" rel="noopener">https://papers.nips.cc/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf</a></p>
+<h1 id="week-2">Week 2</h1>
+<h2 id="feature-engineering">Feature Engineering</h2>
+<h3 id="squeezing-the-most-out-of-data">Squeezing the most out of data</h3>
+<ul>
+<li>Making data useful before training a model</li>
+<li>Representing data in forms that help models learn</li>
+<li>Increasing predictive quality</li>
+<li>Reducing dimensionality with feature engineering</li>
+</ul>
+<h3 id="art-of-feature-engineering">Art of feature engineering</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2031.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2031.png"></p>
+<h3 id="typical-ml-pipeline-1">Typical ML pipeline</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2032.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2032.png"></p>
+<h3 id="key-points-6">Key points</h3>
+<ul>
+<li>Feature engineering can be difficult and time consuming, but also very important to success</li>
+<li>Squeezing the most out of data through feature engineering enables models to learn better</li>
+<li>Concentrating predictive information in fewer features enables more efficient use of compute resources</li>
+<li>Feature engineering during training must also be applied correctly during serving</li>
+</ul>
+<h3 id="main-preprocessing-operations">Main preprocessing operations</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2033.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2033.png"></p>
+<h3 id="mapping-raw-data-into-features">Mapping raw data into features</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2034.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2034.png"></p>
+<h3 id="mapping-categorical-values">Mapping categorical values</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2035.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2035.png"></p>
+<h3 id="categorical-vocabulary">Categorical vocabulary</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2036.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2036.png"></p>
+<h3 id="empirical-knowledge-of-data">Empirical knowledge of data</h3>
+<ul>
+<li>Text: stemming, lemmatization, TF-IDF, n-grams, embedding lookup</li>
+<li>Images: clipping, resizing, cropping, blur, canny filters, Sobel filter, photometric distortions</li>
+</ul>
+<h3 id="key-points-7">Key points</h3>
+<ul>
+<li>Data preprocessing: transforms raw data into a clean and training-ready dataset</li>
+<li>Feature engineering maps:
+<ul>
+<li>Raw data into feature vectors</li>
+<li>Integer values to floating-point values</li>
+<li>Normalizes numerical values</li>
+<li>Strings and categorical values to vectors of numeric values</li>
+<li>Data from one space into a different space</li>
+</ul>
+</li>
+</ul>
+<h3 id="feature-engineering-techniques">Feature engineering techniques</h3>
+<ul>
+<li>Numerical range: scaling, normalizing, standardizing</li>
+<li>Grouping: bucketizing, bag of words</li>
+</ul>
+<h3 id="scaling">Scaling</h3>
+<ul>
+<li>Converts values from their natural range into a prescribed range
+<ul>
+<li>E.g. grayscale image pixel intensity scale is [0,255] usually rescaled to [-1,1]</li>
+</ul>
+</li>
+<li>Benefits
+<ul>
+<li>Helps neural nets converge faster</li>
+<li>Do away with NaN errors during training</li>
+<li>For each feature, the model learns the right weights</li>
+</ul>
+</li>
+</ul>
+<h3 id="normalization">Normalization</h3>
+<p>If you know the data is not gaussian usually good to do.</p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2037.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2037.png"></p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2038.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2038.png"></p>
+<h3 id="standardization-z-score">Standardization (z-score)</h3>
+<p>if your data is normal distribution; try both standardization and normalization.</p>
+<ul>
+<li>Z-score relates the number of standard deviations away from the mean</li>
+<li>e.g.</li>
+</ul>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2039.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2039.png"></p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2040.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2040.png"></p>
+<h3 id="bucketizingbinning">Bucketizing/Binning</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2041.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2041.png"></p>
+<h3 id="binning-with-facets">Binning with facets</h3>
+<h3 id="other-techniques">Other techniques</h3>
+<ul>
+<li>Dimensionality reduction in embeddings
+<ul>
+<li>PCA: principal component analysis</li>
+<li>t-SNE: t-Distributed stochastic neighbor embedding (t-SNE)</li>
+<li>UMAP: uniform manifold approximation and projection</li>
+</ul>
+</li>
+<li>Feature crossing</li>
+</ul>
+<h3 id="tensorflow-embedding-projector">TensorFlow embedding projector</h3>
+<ul>
+<li>Intuitive exploration of high-dimensional data</li>
+<li>Visualize and analyze</li>
+<li>Techniques: PCA,t-SNE, UMAP, custom linear projections</li>
+</ul>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2042.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2042.png"></p>
+<h3 id="key-points-8">Key points</h3>
+<ul>
+<li>Feature engineering:
+<ul>
+<li>Prepares, tunes, transforms, extracts, and constructs features.</li>
+</ul>
+</li>
+<li>Feature engineering is key for model refinement</li>
+<li>Feature engineering helps with ML analysis</li>
+</ul>
+<h3 id="feature-crosses">Feature crosses</h3>
+<ul>
+<li>Combines multiple features together into a new feature</li>
+<li>Encodes nonlinearity in the feature space, or encodes the same information in fewer features</li>
+<li>Create many different kinds of feature crosses
+<ul>
+<li>[A*B]: multiplying the values of two features</li>
+<li>[A<em>B</em>C<em>D</em>E]: multiplying the values of 5 features</li>
+<li>[Day of week, hour]⇒[Hour of week]</li>
+</ul>
+</li>
+</ul>
+<h3 id="encoding-features">Encoding features</h3>
+<p>can&rsquo;t be separated by a line</p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2043.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2043.png"></p>
+<h2 id="feature-transformation-at-scale">Feature Transformation at Scale</h2>
+<h3 id="preprocessing-data-at-scale">Preprocessing data at scale</h3>
+<ul>
+<li>Real-world models: terabytes of data</li>
+<li>Large-scale data processing frameworks</li>
+<li>Consistent transforms between training and serving</li>
+</ul>
+<h3 id="inconsistencies-in-feature-engineering">Inconsistencies in feature engineering</h3>
+<ul>
+<li>Training and serving code paths are different</li>
+<li>Diverse deployments scenarios
+<ul>
+<li>Mobile (TF lite)</li>
+<li>Server (TF serving)</li>
+<li>Web (TF JS)</li>
+</ul>
+</li>
+<li>Risks of introducing training-serving skews</li>
+<li>Skews will lower the performance of your serving model</li>
+</ul>
+<h3 id="preprocessing-granularity">Preprocessing granularity</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2044.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2044.png"></p>
+<h3 id="when-do-you-transform">When do you transform?</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2045.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2045.png"></p>
+<h3 id="how-about-within-a-model">How about &lsquo;within&rsquo; a model?</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2046.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2046.png"></p>
+<h3 id="why-transform-per-batch">Why transform per batch?</h3>
+<ul>
+<li>For example, normalizing features by their average</li>
+<li>Access to a single batch of data, not the full dataset</li>
+<li>Ways to normalize per batch
+<ul>
+<li>Normalize by average within a batch</li>
+<li>Precompute average and reuse it during normalization</li>
+</ul>
+</li>
+</ul>
+<h3 id="optimizing-instance-level-transformations">Optimizing instance-level transformations</h3>
+<ul>
+<li>Indirectly affect training efficiency</li>
+<li>Typically accelerators sit idle while the CPUs transform</li>
+<li>Solution: prefetching transforms for better accelerator efficiency</li>
+</ul>
+<h3 id="summarizing-the-challenges">Summarizing the challenges</h3>
+<ul>
+<li>Balancing predictive performance</li>
+<li>Full-pass transformations on training data</li>
+<li>Optimizing instance-level transformations for better training efficiency (GPUs, TPUs,&hellip;)</li>
+</ul>
+<h3 id="enter-tftransform">Enter tf.Transform</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2047.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2047.png"></p>
+<h3 id="inside-tf-extended">Inside TF Extended</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2048.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2048.png"></p>
+<h3 id="rftransform-layout">rf.Transform layout</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2049.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2049.png"></p>
+<h3 id="tftransform-going-deeper">tf.Transform: going deeper</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2050.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2050.png"></p>
+<h3 id="rftransform-analyzers">rf.Transform Analyzers</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2051.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2051.png"></p>
+<h3 id="how-transform-applies-feature-transformations">How transform applies feature transformations</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2052.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2052.png"></p>
+<h3 id="benefits-of-using-tftransform">Benefits of using tf.Transform</h3>
+<ul>
+<li>Emitted tf.Graph holds all necessary constants and transformations</li>
+<li>Focus on data preprocessing only at training time</li>
+<li>Works in-line during both training and serving</li>
+<li>No need for preprocessing code at serving time</li>
+<li>Consistently applied transformations irrespective of deployment platform</li>
+</ul>
+<h3 id="analyzers-framework">Analyzers framework</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2053.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2053.png"></p>
+<h3 id="tftransform-preprocessing_fn">tf.Transform preprocessing_fn</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2054.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2054.png"></p>
+<h3 id="commonly-used-imports">Commonly used imports</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2055.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2055.png"></p>
+<h3 id="hello-world-with-tftransform">Hello world with tf.Transform</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2056.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2056.png"></p>
+<h3 id="collect-raw-samples-data">Collect raw samples (data)</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2057.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2057.png"></p>
+<h3 id="inspect-data-and-prepare-metadata-data">Inspect data and prepare metadata (data)</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2058.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2058.png"></p>
+<h3 id="preprocessing-data-transform">Preprocessing data (transform)</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2059.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2059.png"></p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2060.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2060.png"></p>
+<h3 id="tensors-intensors-out">Tensors in&hellip;tensors out</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2061.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2061.png"></p>
+<h3 id="running-the-pipeline">Running the pipeline</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2062.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2062.png"></p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2063.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2063.png"></p>
+<h2 id="feature-selection">Feature Selection</h2>
+<h3 id="feature-space">Feature space</h3>
+<ul>
+<li>N dimensional space defined by your N features</li>
+<li>Not including the target label</li>
+</ul>
+<h3 id="feature-space-coverage">Feature space coverage</h3>
+<ul>
+<li>Train/eval datasets representative of the serving dataset
+<ul>
+<li>same numerical ranges</li>
+<li>same classes</li>
+<li>similar characteristics for image data</li>
+<li>similar vocabulary, syntax, and semantics for NLP problems</li>
+</ul>
+</li>
+</ul>
+<h3 id="ensure-feature-space-voerage">Ensure feature space voerage</h3>
+<ul>
+<li>Data affected by: seasonality, trend, drift</li>
+<li>Serving data: new values in features and labels</li>
+<li>Continuous monitoring</li>
+</ul>
+<h3 id="feature-selection-1">Feature selection</h3>
+<ul>
+<li>Identify features that best represent the relationship</li>
+<li>Remove features that don&rsquo;t influence the outcome</li>
+<li>Reduce the size of the feature space</li>
+<li>Reduce the resource requirements and model complexity</li>
+</ul>
+<h3 id="why-is-feature-selection-needed">Why is feature selection needed?</h3>
+<ul>
+<li>Reduce storage and I/O requirements</li>
+<li>Minimize training and inference costs</li>
+</ul>
+<h3 id="feature-selection-methods">Feature selection methods</h3>
+<ul>
+<li>Unsupervised
+<ul>
+<li>Features-target variable relationship not considered</li>
+<li>Removes redundant features (correlation)</li>
+</ul>
+</li>
+<li>Supervised
+<ul>
+<li>Uses features-target variable relationsihp</li>
+<li>Selects those contributing the most</li>
+<li>Filter methods/Wrapper Methods/Embedded Methods</li>
+</ul>
+</li>
+</ul>
+<h3 id="filter-methods">Filter methods</h3>
+<ul>
+<li>
+<p>Correlation</p>
+</li>
+<li>
+<p>Univariate feature selection (for efficiency)</p>
+</li>
+<li>
+<p>Popular filter methods</p>
+<ul>
+<li>Pearson correlation: between features, and between the features and the label</li>
+<li>Univariate feature selection</li>
+</ul>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2064.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2064.png"></p>
+</li>
+</ul>
+<h3 id="correlation-matrix">Correlation matrix</h3>
+<ul>
+<li>Shows how features are related
+<ul>
+<li>To each other (bad)</li>
+<li>And with target variable (good)</li>
+</ul>
+</li>
+<li>Falls in the range [-1, 1]</li>
+</ul>
+<h3 id="feature-comparison-statistical-tests">Feature comparison statistical tests</h3>
+<ul>
+<li>Pearson&rsquo;s correlation: linear relationships</li>
+<li>Kendall Tau Rank correlation coefficient: monotonic relationships and small sample size</li>
+<li>Spearman&rsquo;s Rank Correlation Coefficient: monotonic relationships</li>
+<li>Mutual information/F-test/Chi-squared test</li>
+</ul>
+<h3 id="determine-correlation">Determine correlation</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2065.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2065.png"></p>
+<h3 id="selecting-features">Selecting features</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2066.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2066.png"></p>
+<h3 id="performance-table">Performance table</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2067.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2067.png"></p>
+<h3 id="univariate-feature-selection-in-sklearn">Univariate feature selection in sklearn</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2068.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2068.png"></p>
+<h3 id="wrapper-methods">Wrapper methods</h3>
+<ul>
+<li>Forward elimination</li>
+<li>backward elimination</li>
+<li>recursive feature elimination</li>
+</ul>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2069.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2069.png"></p>
+<h3 id="forward-selection">Forward selection</h3>
+<ul>
+<li>Iterative, greedy method</li>
+<li>Starts with 1 feature</li>
+<li>Evaluate model performance when adding each of the additional features, one at a time</li>
+<li>Add next feature that gives the best performance</li>
+<li>Repeat until there is no improvement</li>
+</ul>
+<h3 id="backward-selection">Backward selection</h3>
+<ul>
+<li>Start with all features</li>
+<li>Evaluate model performance when removing each of the included features, one at a time</li>
+<li>Remove next feature that gives the best performance</li>
+<li>Repeat until there is no improvement</li>
+</ul>
+<h3 id="recursive-feature-elimination-rfe">Recursive feature elimination (RFE)</h3>
+<ul>
+<li>Select a model to use for evaluating feature importance</li>
+<li>Select the desired number of features</li>
+<li>Fit the model</li>
+<li>Rank features by importance</li>
+<li>Discard least important features</li>
+<li>Repeat until the desired number of features remains</li>
+</ul>
+<h3 id="embedded-methods">Embedded methods</h3>
+<ul>
+<li>L1 regularization</li>
+<li>Feature importance</li>
+</ul>
+<h3 id="feature-importance">Feature importance</h3>
+<ul>
+<li>Assigns scores for each feature in data</li>
+<li>Discard features scored lower by feature importance</li>
+</ul>
+<h2 id="readings-1">Readings</h2>
+<p><a href="https://developers.google.com/machine-learning/crash-course/representation/feature-engineering" target="_blank" rel="noopener">Mapping raw data into feature</a></p>
+<p><a href="https://www.notion.so/3ce75d036e924c70ab7e47f534ec40fc" target="_blank" rel="noopener">Feature engineering techniques</a></p>
+<p><a href="https://raw.githubusercontent.com/jbrownlee/Datasets/master/shampoo.csv" target="_blank" rel="noopener">Scaling</a></p>
+<p><a href="https://pair-code.github.io/facets/" target="_blank" rel="noopener">Facets</a></p>
+<p><a href="http://projector.tensorflow.org/" target="_blank" rel="noopener">Embedding projector</a></p>
+<p><a href="https://developers.google.com/machine-learning/crash-course/feature-crosses/encoding-nonlinearity" target="_blank" rel="noopener">Encoding features</a></p>
+<p>TFX:</p>
+<ol>
+<li><a href="https://www.tensorflow.org/tfx/guide#tfx_pipelines" target="_blank" rel="noopener">https://www.tensorflow.org/tfx/guide#tfx_pipelines</a></li>
+<li><a href="https://ai.googleblog.com/2017/02/preprocessing-for-machine-learning-with.html" target="_blank" rel="noopener">https://ai.googleblog.com/2017/02/preprocessing-for-machine-learning-with.html</a></li>
+</ol>
+<p><a href="http://archive.ics.uci.edu/ml/datasets/breast&#43;cancer&#43;wisconsin&#43;%28diagnostic%29" target="_blank" rel="noopener">Breast Cancer Dataset</a></p>
+<h1 id="week-3">Week 3</h1>
+<h2 id="data-journey-and-data-storage">Data Journey and Data Storage</h2>
+<h3 id="the-data-journey">The data journey</h3>
+<ul>
+<li>Raw features and labels</li>
+<li>Input-output map</li>
+<li>ML model to learn mapping</li>
+</ul>
+<h3 id="data-transformation">Data transformation</h3>
+<ul>
+<li>Data transforms as it flows through the process</li>
+<li>Interpreting model results requires understanding data transformation</li>
+</ul>
+<h3 id="artifacts-and-the-ml-pipeline">Artifacts and the ML pipeline</h3>
+<ul>
+<li>Artifacts are created as the components of the ML pipeline execute</li>
+<li>Artifacts include all of the data and objects which are produced by the pipeline components</li>
+<li>This includes the data, in different stages of transformation, the schema, the model itself, metrics, etc.</li>
+</ul>
+<h3 id="data-provenance-and-lineage">Data provenance and lineage</h3>
+<ul>
+<li>The chain of transformations that led to the creation of a particular artifact</li>
+<li>Important for debugging and reproducibility</li>
+</ul>
+<h3 id="data-provenance-why-it-matters">Data provenance: why it matters</h3>
+<ul>
+<li>Helps with debugging and understanding the ML pipeline:
+<ul>
+<li>Inspect artifacts at each point in the training process</li>
+<li>Trace back through a training run</li>
+<li>Compare training runs</li>
+</ul>
+</li>
+</ul>
+<h3 id="data-lineage-data-protection-regulation">Data lineage: data protection regulation</h3>
+<ul>
+<li>Organizations must closely track and organize personal dta</li>
+<li>Data lineage is extremely important for regulatory compliance</li>
+</ul>
+<h3 id="data-provenance-interpreting-results">Data provenance: interpreting results</h3>
+<ul>
+<li>Data transformations sequence leading to predictions</li>
+<li>Understanding the model as it evolves through runs</li>
+</ul>
+<h3 id="data-versioning">Data versioning</h3>
+<ul>
+<li>Data pipeline management is a major challenge</li>
+<li>machine learning requires reproducibility</li>
+<li>Code versioning: github&hellip;</li>
+<li>Environment versioning: docker, terraform, and similar</li>
+<li>Data versioning:
+<ul>
+<li>Version control of datasets</li>
+<li>examples: DVC, Git-LFS</li>
+</ul>
+</li>
+</ul>
+<h3 id="metadata-tracking-artifacts-and-pipeline-changes">Metadata: tracking artifacts and pipeline changes</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2070.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2070.png"></p>
+<h3 id="metadata-tfx-component-architecture">Metadata: TFX component architecture</h3>
+<ul>
+<li>Driver: supplies required metadata to executor</li>
+<li>Executor: place to code the functionality of component</li>
+<li>Publisher: stores result into metadata</li>
+</ul>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2071.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2071.png"></p>
+<h3 id="ml-metadata-library">ML metadata library</h3>
+<ul>
+<li>Tracks metadata flowing between components in pipeline</li>
+<li>Supports multiple storage backends</li>
+</ul>
+<h3 id="ml-metadata-terminology">ML metadata terminology</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2072.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2072.png"></p>
+<h3 id="metadata-stored">Metadata stored</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2073.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2073.png"></p>
+<h3 id="inside-metadatastore">Inside metadatastore</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2074.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2074.png"></p>
+<h3 id="other-benefits-of-ml-metadata">Other benefits of ML Metadata</h3>
+<ul>
+<li>Produce DAG of pipelines</li>
+<li>Verify the inputs used in a nexecution</li>
+<li>List all artifacts</li>
+<li>Compare artifacts</li>
+</ul>
+<h3 id="ml-metadata-storage-backend">ML Metadata storage backend</h3>
+<ul>
+<li>ML metadata registers metadata in a database called metadata store</li>
+<li>APIs to record and retrieve metadata to and from the storage backend:
+<ul>
+<li>Fake database: in-memory for fast experimentation/prototyping</li>
+<li>SQLite: in-memory and disk</li>
+<li>MySQL: server based</li>
+<li>Block storage: file system, storage area network, or cloud based</li>
+</ul>
+</li>
+</ul>
+<h2 id="evolving-data">Evolving Data</h2>
+<h3 id="recall-schema">Recall schema</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2075.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2075.png"></p>
+<h3 id="iterative-schema-development-and-evolution">Iterative schema development and evolution</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2076.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2076.png"></p>
+<h3 id="reliability-during-data-evolution">Reliability during data evolution</h3>
+<p>Platform needs to be resilient to disruptions from:</p>
+<ul>
+<li>Inconsistent data</li>
+<li>Software</li>
+<li>User configurations</li>
+<li>Execution environments</li>
+</ul>
+<h3 id="scalability-during-data-evolution">Scalability during data evolution</h3>
+<p>Platform must scale during:</p>
+<ul>
+<li>High data volume during training</li>
+<li>Variable request traffic during serving</li>
+</ul>
+<h3 id="anomaly-detection-during-data-evolution">Anomaly detection during data evolution</h3>
+<p>Platform designed with these principles:</p>
+<ul>
+<li>easy to detect anomalies</li>
+<li>data errors treated same as code bugs</li>
+<li>Updata data schema</li>
+</ul>
+<h3 id="schema-inspection-during-data-evolution">Schema inspection during data evolution</h3>
+<ul>
+<li>Looking at schema versions to track data evolution</li>
+<li>Schema can drive other automated processes</li>
+</ul>
+<h3 id="multiple-schema-versions">Multiple schema versions</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2077.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2077.png"></p>
+<h3 id="maintaining-varieties-of-schema">Maintaining varieties of schema</h3>
+<ul>
+<li>business use-case needs to support data from different sources</li>
+<li>Data evolves rapidly</li>
+<li>Is anomaly part of accepted type of data</li>
+</ul>
+<h3 id="schema-environments">Schema environments</h3>
+<ul>
+<li>Customize the schema for each environment</li>
+<li>Ex: add or remove label in schema based on type of dataset</li>
+</ul>
+<h2 id="enterprise-data-storage">Enterprise Data Storage</h2>
+<h3 id="feature-stores">Feature stores</h3>
+<p>Many modeling problems use identical or similar features</p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2078.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2078.png"></p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2079.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2079.png"></p>
+<ul>
+<li>avoid duplication</li>
+<li>control access</li>
+<li>purge</li>
+</ul>
+<h3 id="offline-feature-processing">Offline feature processing</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2080.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2080.png"></p>
+<h3 id="online-feature-usage">Online feature usage</h3>
+<ul>
+<li>Low latency access to features</li>
+<li>Features difficult to compute online</li>
+<li>Precompute and store for low latency access</li>
+</ul>
+<h3 id="features-for-online-serving-batch">Features for online serving: batch</h3>
+<p>Batch precomputing and loading history</p>
+<ul>
+<li>Simple and efficient</li>
+<li>Works well for features to only be updated every few hours or once a day</li>
+<li>Same data is used for training and serving</li>
+</ul>
+<h3 id="feature-store-key-aspects">Feature store: key aspects</h3>
+<ul>
+<li>managing feature data from a single person to large enterprises</li>
+<li>Scalable and performant access to feature data in training and servign</li>
+<li>Provide consistent and point-in-time correct access to feature data</li>
+<li>Enable discovery, documentation, and insights into your features</li>
+</ul>
+<h3 id="data-warehouse">Data warehouse</h3>
+<ul>
+<li>Aggregates data sources</li>
+<li>Processed and analyzed</li>
+<li>read optimized</li>
+<li>Not real time</li>
+<li>Follows schema</li>
+</ul>
+<h3 id="key-features-of-data-warehouse">Key features of data warehouse</h3>
+<ul>
+<li>Subject oriented</li>
+<li>Integrated</li>
+<li>Non volatile</li>
+<li>time variant</li>
+</ul>
+<h3 id="advantages-of-data-warehouse">Advantages of data warehouse</h3>
+<ul>
+<li>Enhanced ability to analyze data</li>
+<li>Timely access to data</li>
+<li>Enhanced data quality and consistency</li>
+<li>High return on investment</li>
+<li>Increased query and system performance</li>
+</ul>
+<h3 id="comparison-with-databases">Comparison with databases</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2081.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2081.png"></p>
+<h3 id="data-lakes">Data lakes</h3>
+<ul>
+<li>Aggregates raw data from one or more sources</li>
+<li>Data can be structured or unstructured</li>
+<li>Doesn&rsquo;t involve any processing before writing data</li>
+</ul>
+<h3 id="comparison-with-data-warehouse">Comparison with data warehouse</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2082.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2082.png"></p>
+<h3 id="key-points-9">Key points</h3>
+<ul>
+<li>Feature store: central repository for storing documented, curated, and access-controlled features, specifically for ML</li>
+<li>Data warehouse: subject-oriented repository of structured data optimized for fast read</li>
+<li>Data Lakes: repository of data stored in its natural and raw format</li>
+</ul>
+<h2 id="reading">Reading</h2>
+<p>If you wish to dive more deeply into the topics covered this week, feel free to check out these optional references. You won’t have to read these to complete this week’s practice quizzes.</p>
+<p>Data Versioning:</p>
+<ol>
+<li><a href="https://dvc.org/" target="_blank" rel="noopener">https://dvc.org/</a></li>
+<li><a href="https://git-lfs.github.com/" target="_blank" rel="noopener">https://git-lfs.github.com/</a></li>
+</ol>
+<p>ML Metadata:</p>
+<ol>
+<li><a href="https://www.tensorflow.org/tfx/guide/mlmd#data_model" target="_blank" rel="noopener">https://www.tensorflow.org/tfx/guide/mlmd#data_model</a></li>
+<li><a href="https://www.tensorflow.org/tfx/guide/understanding_custom_components" target="_blank" rel="noopener">https://www.tensorflow.org/tfx/guide/understanding_custom_components</a></li>
+</ol>
+<p>Chicago taxi trips data set:</p>
+<ol>
+<li><a href="https://data.cityofchicago.org/Transportation/Taxi-Trips/wrvz-psew/data" target="_blank" rel="noopener">https://data.cityofchicago.org/Transportation/Taxi-Trips/wrvz-psew/data</a></li>
+<li><a href="https://archive.ics.uci.edu/ml/datasets/covertype" target="_blank" rel="noopener">https://archive.ics.uci.edu/ml/datasets/covertype</a></li>
+</ol>
+<p>Feast:</p>
+<ol>
+<li><a href="https://cloud.google.com/blog/products/ai-machine-learning/introducing-feast-an-open-source-feature-store-for-machine-learning" target="_blank" rel="noopener">https://cloud.google.com/blog/products/ai-machine-learning/introducing-feast-an-open-source-feature-store-for-machine-learning</a></li>
+<li><a href="https://github.com/feast-dev/feast" target="_blank" rel="noopener">https://github.com/feast-dev/feast</a></li>
+<li><a href="https://blog.gojekengineering.com/feast-bridging-ml-models-and-data-efd06b7d1644" target="_blank" rel="noopener">https://blog.gojekengineering.com/feast-bridging-ml-models-and-data-efd06b7d1644</a></li>
+</ol>
+<h1 id="week-4">Week 4</h1>
+<h2 id="advanced-labeling">Advanced Labeling</h2>
+<h3 id="why-is-advanced-labeling-important">Why is advanced labeling important</h3>
+<ul>
+<li>manually labeling of data is expensive</li>
+<li>Unlabeled data is usually cheap and easy to get</li>
+<li>Unlabeled data contains a lot of information that can improve our model</li>
+</ul>
+<h3 id="semi-supervised-learning">Semi-supervised learning</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2083.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2083.png"></p>
+<ul>
+<li>Advantages
+<ul>
+<li>Combining labeled and unlabeled data boosts accuracy</li>
+<li>Getting unlabeled data is cheap</li>
+</ul>
+</li>
+</ul>
+<h3 id="label-propagation">Label propagation</h3>
+<ul>
+<li>Semi-supervised ML algorithm</li>
+<li>A subset of the examples have labels</li>
+<li>Labels are propagated to the unlabeled points:
+<ul>
+<li>Based on similarity of &ldquo;community structure&rdquo;</li>
+</ul>
+</li>
+</ul>
+<h3 id="label-propagation---graph-based">Label propagation - graph based</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2084.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2084.png"></p>
+<ul>
+<li>Unlabeled examples can be assigned labels based on their neighbors</li>
+</ul>
+<h3 id="active-learning">Active learning</h3>
+<ul>
+<li>A family of algorithms for intelligently sampling data</li>
+<li>Select the points to be labeled that would be most informative for model training</li>
+<li>Very helpful in the following situations:
+<ul>
+<li>Constrained data budgets: you can only afford labeling a few points</li>
+<li>Imbalanced dataset: helps selecting rare classes for training</li>
+<li>Target metrics: when baseline sampling strategy does not improve selected metrics</li>
+</ul>
+</li>
+</ul>
+<h3 id="active-learning-strategies">Active learning strategies</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2085.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2085.png"></p>
+<h3 id="active-learning-cycle">Active learning cycle</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2086.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2086.png"></p>
+<h3 id="margin-sampling">Margin sampling</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2087.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2087.png"></p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2088.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2088.png"></p>
+<p>repeat until the performance doesn&rsquo;t improve</p>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2089.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2089.png"></p>
+<h3 id="active-learning-sampling-techniques">Active learning sampling techniques</h3>
+<ul>
+<li>Margin sampling: label points the current model  is least confident in</li>
+<li>Cluster-based sampling: sample from well-formed clusters to &lsquo;cover&rsquo; the entire space</li>
+<li>Query-by-committee: train an ensemble of models and sample points that generate disagreement</li>
+<li>Region-based sampling: runs several active learning algorithms in different partitions of the space</li>
+</ul>
+<h3 id="weak-supervision">Weak supervision</h3>
+<p>Weak supervision is about leveraging higher-level and/or noisier input from subject matter experts.</p>
+<ul>
+<li>Unlabeled data, without ground-truth labels</li>
+<li>One or more weak supervision sources
+<ul>
+<li>a list of heuristics that can automate labeling</li>
+<li>Typically provided by subject matter experts</li>
+</ul>
+</li>
+<li>Noisy labels have a certain probability of being correct, not 100%</li>
+<li>Objective: learn a generative model to determine weights for weak supervision sources</li>
+</ul>
+<h3 id="snorkel">Snorkel</h3>
+<ul>
+<li>Programmatically building and managing training datasets without manual labeling</li>
+<li>Automatically: models, cleans, and integrates the resulting training data</li>
+<li>Applies novel, theoretically-grounded techniques</li>
+<li>Also offers data augmentation and slicing</li>
+</ul>
+<h3 id="data-programming-pipeline-in-snorkel">Data programming pipeline in Snorkel</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2090.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2090.png"></p>
+<h2 id="data-augmentation">Data Augmentation</h2>
+<h3 id="how-do-you-get-more-data">How do you get more data?</h3>
+<ul>
+<li>Augmentation as a way to expand datasets</li>
+<li>One way is introducing minor alterations</li>
+<li>For images: flips, rotations, etc</li>
+</ul>
+<h3 id="how-does-augmentation-data-help">How does augmentation data help?</h3>
+<ul>
+<li>Adds examples that are similar to real examples</li>
+<li>Improves coverage of feature space</li>
+<li>Beware of invalid augmentations</li>
+</ul>
+<h3 id="other-advanced-techniques">Other advanced techniques</h3>
+<ul>
+<li>Semi-supervised data augmentation. e.g., UDA, semi-supervised learning with GANs</li>
+<li>Policy-based data augmentation e.g., AutoAugment</li>
+</ul>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2091.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2091.png"></p>
+<h2 id="preprocessing-different-data-types">Preprocessing Different Data Types</h2>
+<h3 id="different-types-of-data">Different types of data</h3>
+<ul>
+<li>TRX pre-processing capabilities for multiple data types
+<ul>
+<li>Images</li>
+<li>Video</li>
+<li>text</li>
+<li>audio</li>
+<li>time series</li>
+</ul>
+</li>
+</ul>
+<h3 id="time-series-data">Time series data</h3>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2092.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2092.png"></p>
+<h3 id="time-series-forecasting">Time series forecasting</h3>
+<ul>
+<li>predicts future events by analyzing data from the past</li>
+<li>makes predictions on data indexed by time</li>
+<li>example:
+<ul>
+<li>predict future temperature at a given location based on historical meteorological data</li>
+</ul>
+</li>
+</ul>
+<h3 id="time-series-dataset-weather-prediction">Time series dataset: weather prediction</h3>
+<ul>
+<li>to preprocess time series data with tensorflow transform</li>
+<li>to convert data int sequences of time steps
+<ul>
+<li>making data ready to train a long short-term memory recurrent neural network</li>
+</ul>
+</li>
+</ul>
+<h3 id="sensors-and-signals">Sensors and signals</h3>
+<ul>
+<li>Signals are sequences of data collected from real time sensors</li>
+<li>Each data point is indexed by a timestamp</li>
+<li>Sensors and signals data is thus time series data</li>
+<li>Example: classify sequences of accelerometer data recorded by the sensors on smartphones to identify the associate activity</li>
+</ul>
+<h3 id="human-activity-recognition">Human activity recognition</h3>
+<ul>
+<li>
+<p>HAR tasks require segmentation operations</p>
+<ul>
+<li>Raw inertial data from wearables fluctuate greatly over time</li>
+<li>Segmented data should be transformed for modeling</li>
+<li>Different methods of transformation:
+<ul>
+<li>Spectrograms</li>
+<li>normalization end encoding</li>
+<li>Multichannel</li>
+<li>Fourier transform</li>
+</ul>
+</li>
+</ul>
+<p><img src="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2093.png" alt="Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Produ%208912ae3a6c01444aa7ed224374b681f1/Untitled%2093.png"></p>
+</li>
+</ul>
+<h2 id="reading-1">Reading</h2>
+<p><a href="https://twitter.com/jeffdean/status/1106325994913189888?lang=en" target="_blank" rel="noopener">Hand Labeling</a></p>
+<p><a href="https://dawn.cs.stanford.edu/2017/07/16/weak-supervision/" target="_blank" rel="noopener">Weak supervision</a></p>
+<p><a href="https://www.snorkel.org/" target="_blank" rel="noopener">Snorkel</a></p>
+<p><a href="https://ai.googleblog.com/2018/06/improving-deep-learning-performance.html" target="_blank" rel="noopener">How do you get more data?</a></p>
+<p><a href="https://github.com/google-research/uda" target="_blank" rel="noopener">Advanced Techniques</a></p>
+<p><a href="https://www.tensorflow.org/lite/models/image_classification/overview" target="_blank" rel="noopener">Images in tensorflow</a></p>
+<p>CIFAR-10</p>
+<ol>
+<li><a href="https://www.cs.toronto.edu/~kriz/cifar.html" target="_blank" rel="noopener">https://www.cs.toronto.edu/~kriz/cifar.html</a></li>
+<li><a href="https://www.tensorflow.org/datasets/catalog/cifar10" target="_blank" rel="noopener">https://www.tensorflow.org/datasets/catalog/cifar10</a></li>
+</ol>
+<p><a href="https://www.bgc-jena.mpg.de/wetter/" target="_blank" rel="noopener">Weather dataset</a></p>
+<p><a href="https://www.cis.fordham.edu/wisdm/dataset.php" target="_blank" rel="noopener">Human Activity Recognition</a></p>
+<p><strong>Papers</strong></p>
+<p>Label Propagation:</p>
+<p>Iscen, A., Tolias, G., Avrithis, Y., &amp; Chum, O. (2019). Label propagation for deep semi-supervised learning. <a href="https://arxiv.org/pdf/1904.04717.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1904.04717.pdf</a></p>
+<p>Slide 13 active learning:</p>
+<p>Source: Original slides by Yale Cong</p>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/python/">Python</a>
+  
+  <a class="badge badge-light" href="/tag/machine-learning/">Machine learning</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/mlops2/&amp;text=Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Production%20%28MLOps2%29%20on%20Coursera/Deeplearning.ai" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/mlops2/&amp;t=Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Production%20%28MLOps2%29%20on%20Coursera/Deeplearning.ai" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Production%20%28MLOps2%29%20on%20Coursera/Deeplearning.ai&amp;body=/post/mlops2/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/mlops2/&amp;title=Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Production%20%28MLOps2%29%20on%20Coursera/Deeplearning.ai" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Production%20%28MLOps2%29%20on%20Coursera/Deeplearning.ai%20/post/mlops2/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/mlops2/&amp;title=Notes%20for%20Machine%20Learning%20Data%20Lifecycle%20in%20Production%20%28MLOps2%29%20on%20Coursera/Deeplearning.ai" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <img class="avatar mr-3 avatar-square" src="/author/yufei-zhao/avatar_hub2d2ba509bb5e359b836d762ea32b046_94711_270x270_fill_q75_lanczos_center.jpg" alt="Yufei Zhao">
+    
+
+    <div class="media-body">
+      <h5 class="card-title">Yufei Zhao</h5>
+      <h6 class="card-subtitle">PhD Candidate</h6>
+      
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:yzhao17@uoregon.edu" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/_zhaoyufei" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/irisfee" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/yufei-zhao-4abb40ab" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+<section id="comments">
+  
+    
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function () {
+    
+    
+    
+  };
+  (function() {
+    if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+      document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+      return;
+    }
+    var d = document, s = d.createElement('script'); s.async = true;
+    s.src = 'https://' + "zhaoyufei" + '.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  
+</section>
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/project/hitsong/">Building API for Predicting Mando-pop Popularity</a></li>
+      
+      <li><a href="/post/mlops1/">Notes for Introduction to Machine Learning in Production (MLOps1) on Coursera/Deeplearning.ai</a></li>
+      
+      <li><a href="/project/nsd/">Decoding memory content from human parietal cortex: VGG16 application on memory research</a></li>
+      
+      <li><a href="/post/ref-data-science/">Books/video courses recommendation for data science related coding/machine learning/stats</a></li>
+      
+      <li><a href="/project/color-differentiation/">Efficient way of the brain for resolving similar memory interference</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+  <p class="powered-by">
+    Yufei Zhao ©2021 &middot; 
+    Code with ❤️ and 🍵. Powered by R <a href="https://bookdown.org/yihui/blogdown/" target="_blank" rel="noopener">Blogdown</a> and the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/instant.page/5.1.0/instantpage.min.js" integrity="sha512-1+qUtKoh9XZW7j+6LhRMAyOrgSQKenQ4mluTR+cvxXjP1Z54RxZuzstR/H9kgPXQsVB8IW7DMDFUJpzLjvhGSQ==" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js" integrity="sha512-TDKKr+IvoqZnPzc3l35hdjpHD0m+b2EC2SrLEgKDRWpxf2rFCxemkgvJ5kfU48ip+Y+m2XVKyOCD85ybtlZDmw==" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/r.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/languages/latex.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js" integrity="sha512-SeiQaaDh73yrb56sTW/RgVdi/mMqNeM2oBwubFHagc5BkixSpP1fvqF47mKzPGWYSSy4RwbBunrJBQ4Co8fRWA==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'event' : "Events",
+        'slides' : "Slides"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+
+    
+    
+
+    
+    
+    <script id="dsq-count-scr" src="https://zhaoyufei.disqus.com/count.js" async></script>
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/js/wowchemy.min.572b7caf7fe601716a0f74d67d754c21.js"></script>
+
+    
+
+
+
+
+
+
+</body>
+</html>

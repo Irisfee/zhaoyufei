@@ -1,0 +1,18 @@
+{
+  "name": "Yufei Zhao | 赵雨菲",
+  "short_name": "Yufei Zhao | 赵雨菲",
+  "lang": "en-us",
+  "theme_color": "rgb(251, 191, 183)",
+  "background_color": "rgb(251, 191, 183)",
+  "icons": [{
+    "src": "/images/icon_hu8daf07698441511167650349ca463977_8870_192x192_fill_lanczos_center_2.png",
+    "sizes": "192x192",
+    "type": "image/png"
+    }, {
+    "src": "/images/icon_hu8daf07698441511167650349ca463977_8870_512x512_fill_lanczos_center_2.png",
+    "sizes": "512x512",
+    "type": "image/png"
+     }],
+  "display": "standalone",
+  "start_url": "/?utm_source=web_app_manifest"
+}

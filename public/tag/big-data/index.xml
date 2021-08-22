@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Big data | Yufei Zhao | 赵雨菲</title>
+    <link>/tag/big-data/</link>
+      <atom:link href="/tag/big-data/index.xml" rel="self" type="application/rss+xml" />
+    <description>Big data</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>Yufei Zhao ©2021</copyright><lastBuildDate>Sun, 22 Aug 2021 00:00:52 -0700</lastBuildDate>
+    <image>
+      <url>/images/icon_hu8daf07698441511167650349ca463977_8870_512x512_fill_lanczos_center_2.png</url>
+      <title>Big data</title>
+      <link>/tag/big-data/</link>
+    </image>
+    
+    <item>
+      <title>Building API for Predicting Mando-pop Popularity</title>
+      <link>/project/hitsong/</link>
+      <pubDate>Sun, 22 Aug 2021 00:00:52 -0700</pubDate>
+      <guid>/project/hitsong/</guid>
+      <description>&lt;p&gt;Desciption is coming soon! You can check out the two github repo now!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Decoding memory content from human parietal cortex: VGG16 application on memory research</title>
+      <link>/project/nsd/</link>
+      <pubDate>Tue, 18 May 2021 16:00:28 -0800</pubDate>
+      <guid>/project/nsd/</guid>
+      <description>&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
+&lt;p&gt;When a stimulus from the past is re-encountered, this can elicit increased neural activation relative to a novel stimulus (repetition enhancement) or decreased activation (repetition attenuation). Studies of episodic memory have consistently found that repetition enhancement occurs within parietal cortex and that these enhancement effects are related to behavioral expressions of successful episodic remembering. Repetition attenuation, in contrast, is more typically observed in regions of occipitotemporal cortex and is less consistently related to behavioral expressions of episodic memory. Separately, pattern-based fMRI studies have found that information about the content of stimuli is reflected in both parietal cortex and ventral temporal cortex, but it is less clear how or whether these content representations are integrated with repetition-related memory signals.&lt;/p&gt;
+&lt;h2 id=&#34;methods&#34;&gt;Methods&lt;/h2&gt;
+&lt;h3 id=&#34;dataset&#34;&gt;Dataset&lt;/h3&gt;
+&lt;p&gt;In this study, we utilize the &lt;a href=&#34;http://naturalscenesdataset.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Natural Scene Dataset (NSD)&lt;/a&gt;, which is 7T fMRI study with data size around &lt;strong&gt;2+ TB&lt;/strong&gt;. In this dataset, eight participants performed a continuous recognition task spanning 30-40 fMRI scan sessions and up to 10,000 unique, naturalistic images.
+&lt;img src=&#34;fig1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;vectorize-memory-content&#34;&gt;Vectorize memory content&lt;/h3&gt;
+&lt;p&gt;In the study, the stimuli subjects remembered were images from &lt;a href=&#34;https://cocodataset.org/#home&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;COCO dataset&lt;/a&gt;. Thus, to vectorized the memory content information, we can extract information from each image.&lt;/p&gt;
+&lt;h4 id=&#34;semantic-models&#34;&gt;Semantic models&lt;/h4&gt;
+&lt;p&gt;Since each image from COCO dataset are annotated by human workers with English, we started by analyzing the image content with two popular semantic models: &lt;a href=&#34;https://arxiv.org/abs/1301.3781&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Word2vec&lt;/a&gt; and &lt;a href=&#34;https://github.com/oborchers/Fast_Sentence_Embeddings&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Fast sentence embedding (fse)&lt;/a&gt;. However, after comparing the similarity analysis based on the embedding from these two semantic models and our human raters on a small subset of the images, we were not satisfying with these two methods in terms of capturing the image content information.&lt;/p&gt;
+&lt;h4 id=&#34;vgg16&#34;&gt;VGG16&lt;/h4&gt;
+&lt;p&gt;We believe the undesirable results from the semantic models are due to the quality of the annotation: each image was annotated by five human workers, and each worked wrote one single sentence to describe the image. With this setting, the richness of the annotation is very limited so that the annotation is not representative to the image content. To solve this problem, we believe quantifying the image content directly from the visual part of the image would be a closer approximation of the memory content. After literature review, we decided that &lt;a href=&#34;https://arxiv.org/abs/1409.1556&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;VGG16&lt;/a&gt;, a convolutional neural network designed for image content classification and detection, would be a good candidate for our purpose. We passed the images through VGG16 and used the output from the last fully connected layer (fc3) as the content vector of each image. The VGG16 model was trained on Imagenet, which is a different image dataset from COCO. To make sure the difference of image dataset won&amp;rsquo;t be a problem for adopting the neural network in our analysis, I visualized all the images in our experiment based on their VGG16 fc3 feature similarity with t-SNE (see figure below). As can been, the feature output from the last fully connected layer can successfully represent both local and global distance of image similarity. Although the model learned from low level visual features, it can still capture high level information of the image. Here is a &lt;a href=&#34;/post/vgg-viusalization/&#34;&gt;post&lt;/a&gt; I wrote about how to extract features of VGG16 with pytorch and visualize images base on their similarity with t-SNE.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;featured.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;model-prediction&#34;&gt;Model prediction&lt;/h3&gt;
+&lt;p&gt;We calculated the difference in multivoxel fMRI activations between the first presentation (initial encoding) and second presentation (retrieval) for each stimulus and tested whether these repetition-related differences in activity patterns carried information about the visual content of the image. As demonstrate previously, to quantify the content of each image, we passed the images through VGG16, a convolutional neural network designed for image content classification and detection. We then reduced features from the output layer to 10 PCA dimensions and used ridge regression to test whether repetition-related changes in fMRI activity patterns predicted the PCA content scores. We used MSE to evaluate model performance, comparing it with 1000 permutation model results.&lt;/p&gt;
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;We found that repetition-related differences in medial and lateral parietal cortex predicted image content
+significantly above chance level (1000 permutation test). Moreover, these predictions were significantly better for hits (correct recognition) compared to misses (failed recognition) indicating that the presence of content information was directly related to successful recognition. Interestingly, repetition-related differences in occipitotemporal cortex also predicted image content, but the success of these predictions were less dependent on successful behavioral recognition. Collectively, our results indicate that repetition-related enhancements which have consistently been observed in parietal cortex directly integrate information about the content of what is being remembered.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

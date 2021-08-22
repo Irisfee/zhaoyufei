@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Neural network | Yufei Zhao | 赵雨菲</title>
+    <link>/tag/neural-network/</link>
+      <atom:link href="/tag/neural-network/index.xml" rel="self" type="application/rss+xml" />
+    <description>Neural network</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><copyright>Yufei Zhao ©2021</copyright><lastBuildDate>Sun, 22 Aug 2021 00:00:52 -0700</lastBuildDate>
+    <image>
+      <url>/images/icon_hu8daf07698441511167650349ca463977_8870_512x512_fill_lanczos_center_2.png</url>
+      <title>Neural network</title>
+      <link>/tag/neural-network/</link>
+    </image>
+    
+    <item>
+      <title>Building API for Predicting Mando-pop Popularity</title>
+      <link>/project/hitsong/</link>
+      <pubDate>Sun, 22 Aug 2021 00:00:52 -0700</pubDate>
+      <guid>/project/hitsong/</guid>
+      <description>&lt;p&gt;Desciption is coming soon! You can check out the two github repo now!&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Decoding memory content from human parietal cortex: VGG16 application on memory research</title>
+      <link>/project/nsd/</link>
+      <pubDate>Tue, 18 May 2021 16:00:28 -0800</pubDate>
+      <guid>/project/nsd/</guid>
+      <description>&lt;h2 id=&#34;background&#34;&gt;Background&lt;/h2&gt;
+&lt;p&gt;When a stimulus from the past is re-encountered, this can elicit increased neural activation relative to a novel stimulus (repetition enhancement) or decreased activation (repetition attenuation). Studies of episodic memory have consistently found that repetition enhancement occurs within parietal cortex and that these enhancement effects are related to behavioral expressions of successful episodic remembering. Repetition attenuation, in contrast, is more typically observed in regions of occipitotemporal cortex and is less consistently related to behavioral expressions of episodic memory. Separately, pattern-based fMRI studies have found that information about the content of stimuli is reflected in both parietal cortex and ventral temporal cortex, but it is less clear how or whether these content representations are integrated with repetition-related memory signals.&lt;/p&gt;
+&lt;h2 id=&#34;methods&#34;&gt;Methods&lt;/h2&gt;
+&lt;h3 id=&#34;dataset&#34;&gt;Dataset&lt;/h3&gt;
+&lt;p&gt;In this study, we utilize the &lt;a href=&#34;http://naturalscenesdataset.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Natural Scene Dataset (NSD)&lt;/a&gt;, which is 7T fMRI study with data size around &lt;strong&gt;2+ TB&lt;/strong&gt;. In this dataset, eight participants performed a continuous recognition task spanning 30-40 fMRI scan sessions and up to 10,000 unique, naturalistic images.
+&lt;img src=&#34;fig1.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;vectorize-memory-content&#34;&gt;Vectorize memory content&lt;/h3&gt;
+&lt;p&gt;In the study, the stimuli subjects remembered were images from &lt;a href=&#34;https://cocodataset.org/#home&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;COCO dataset&lt;/a&gt;. Thus, to vectorized the memory content information, we can extract information from each image.&lt;/p&gt;
+&lt;h4 id=&#34;semantic-models&#34;&gt;Semantic models&lt;/h4&gt;
+&lt;p&gt;Since each image from COCO dataset are annotated by human workers with English, we started by analyzing the image content with two popular semantic models: &lt;a href=&#34;https://arxiv.org/abs/1301.3781&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Word2vec&lt;/a&gt; and &lt;a href=&#34;https://github.com/oborchers/Fast_Sentence_Embeddings&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Fast sentence embedding (fse)&lt;/a&gt;. However, after comparing the similarity analysis based on the embedding from these two semantic models and our human raters on a small subset of the images, we were not satisfying with these two methods in terms of capturing the image content information.&lt;/p&gt;
+&lt;h4 id=&#34;vgg16&#34;&gt;VGG16&lt;/h4&gt;
+&lt;p&gt;We believe the undesirable results from the semantic models are due to the quality of the annotation: each image was annotated by five human workers, and each worked wrote one single sentence to describe the image. With this setting, the richness of the annotation is very limited so that the annotation is not representative to the image content. To solve this problem, we believe quantifying the image content directly from the visual part of the image would be a closer approximation of the memory content. After literature review, we decided that &lt;a href=&#34;https://arxiv.org/abs/1409.1556&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;VGG16&lt;/a&gt;, a convolutional neural network designed for image content classification and detection, would be a good candidate for our purpose. We passed the images through VGG16 and used the output from the last fully connected layer (fc3) as the content vector of each image. The VGG16 model was trained on Imagenet, which is a different image dataset from COCO. To make sure the difference of image dataset won&amp;rsquo;t be a problem for adopting the neural network in our analysis, I visualized all the images in our experiment based on their VGG16 fc3 feature similarity with t-SNE (see figure below). As can been, the feature output from the last fully connected layer can successfully represent both local and global distance of image similarity. Although the model learned from low level visual features, it can still capture high level information of the image. Here is a &lt;a href=&#34;/post/vgg-viusalization/&#34;&gt;post&lt;/a&gt; I wrote about how to extract features of VGG16 with pytorch and visualize images base on their similarity with t-SNE.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;featured.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;model-prediction&#34;&gt;Model prediction&lt;/h3&gt;
+&lt;p&gt;We calculated the difference in multivoxel fMRI activations between the first presentation (initial encoding) and second presentation (retrieval) for each stimulus and tested whether these repetition-related differences in activity patterns carried information about the visual content of the image. As demonstrate previously, to quantify the content of each image, we passed the images through VGG16, a convolutional neural network designed for image content classification and detection. We then reduced features from the output layer to 10 PCA dimensions and used ridge regression to test whether repetition-related changes in fMRI activity patterns predicted the PCA content scores. We used MSE to evaluate model performance, comparing it with 1000 permutation model results.&lt;/p&gt;
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;We found that repetition-related differences in medial and lateral parietal cortex predicted image content
+significantly above chance level (1000 permutation test). Moreover, these predictions were significantly better for hits (correct recognition) compared to misses (failed recognition) indicating that the presence of content information was directly related to successful recognition. Interestingly, repetition-related differences in occipitotemporal cortex also predicted image content, but the success of these predictions were less dependent on successful behavioral recognition. Collectively, our results indicate that repetition-related enhancements which have consistently been observed in parietal cortex directly integrate information about the content of what is being remembered.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Visualize image set based on VGG16 Convolutional layer features</title>
+      <link>/post/vgg-viusalization/</link>
+      <pubDate>Mon, 16 Nov 2020 20:21:35 -0800</pubDate>
+      <guid>/post/vgg-viusalization/</guid>
+      <description>&lt;h2 id=&#34;in-this-notebook-i-am-going-to-show-you&#34;&gt;In this notebook, I am going to show you&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;How to extract the features for a set of images at a certain layer of VGG16 pretrained model with &lt;strong&gt;PyTorch&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;How to use &lt;strong&gt;PCA(Principle component analysis)&lt;/strong&gt; to reduce the feature dimension for better visualization.&lt;/li&gt;
+&lt;li&gt;How to use &lt;strong&gt;t-SNE&lt;/strong&gt; to visualize the image set based on their similarity of layer features (visualize the n-dimension features as 2-d distance).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;image-set-for-example&#34;&gt;Image set for example&lt;/h2&gt;
+&lt;p&gt;Here, I am using images from &lt;a href=&#34;http://naturalscenesdataset.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Natural Scene Dataset&lt;/a&gt;. The Natural Scenes Dataset (NSD) is a large-scale fMRI dataset conducted at ultra-high-field (7T) strength at the Center of Magnetic Resonance Research (CMRR) at the University of Minnesota. The dataset consists of whole-brain, high-resolution (1.8-mm isotropic, 1.6-s sampling rate) fMRI measurements of 8 healthy adult subjects while they viewed thousands of color natural scenes over the course of 30–40 scan sessions. Images used in this dataset are originally from &lt;a href=&#34;https://cocodataset.org/#home&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Microsoft COCO&lt;/a&gt;. I am working on semantic and memory-related exploratory analysis about this dataset.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from pathlib import Path
+import h5py
+from torchvision import models
+from PIL import Image
+from torchvision import transforms
+import numpy as np
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;read-in-the-image&#34;&gt;Read in the image&lt;/h3&gt;
+&lt;p&gt;NSD images are square-cropped images from Microsoft Coco dataset&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# import stimuli
+sti_dir = Path(&#39;/projects/hulacon/shared/nsd/nsddata_stimuli/stimuli/nsd/nsd_stimuli.hdf5&#39;).as_posix()
+sti = h5py.File(sti_dir,&#39;r&#39;)
+sti_array = sti[&#39;imgBrick&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;read-in-the-pretrianed-vgg16-model&#34;&gt;Read in the pretrianed VGG16 model&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# import model
+pretrained_model = models.vgg16(pretrained=True).features
+pretrained_model.eval()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;Sequential(
+  (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (1): ReLU(inplace=True)
+  (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (3): ReLU(inplace=True)
+  (4): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (5): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (6): ReLU(inplace=True)
+  (7): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (8): ReLU(inplace=True)
+  (9): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (10): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (11): ReLU(inplace=True)
+  (12): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (13): ReLU(inplace=True)
+  (14): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (15): ReLU(inplace=True)
+  (16): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (17): Conv2d(256, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (18): ReLU(inplace=True)
+  (19): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (20): ReLU(inplace=True)
+  (21): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (22): ReLU(inplace=True)
+  (23): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+  (24): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (25): ReLU(inplace=True)
+  (26): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (27): ReLU(inplace=True)
+  (28): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (29): ReLU(inplace=True)
+  (30): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Above we can see the convolutional layer structure of VGG. The index of each layer is labeled. I will use the pooling layer 1 as the example.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;conv_layer = {
+    &#39;conv1&#39;: 0,
+    &#39;conv2&#39;: 2,
+    &#39;conv3&#39;: 5,
+    &#39;conv4&#39;: 7,
+    &#39;conv5&#39;: 10,
+    &#39;conv6&#39;: 12,
+    &#39;conv7&#39;: 14,
+    &#39;conv8&#39;: 17,
+    &#39;conv9&#39;: 19,
+    &#39;conv10&#39;: 21,
+    &#39;conv11&#39;: 24,
+    &#39;conv12&#39;: 26,
+    &#39;conv13&#39;: 28}
+
+pooling_layer = {
+    &#39;pool1&#39;: 4,
+    &#39;pool2&#39;: 9,
+    &#39;pool3&#39;: 16,
+    &#39;pool4&#39;: 23,
+    &#39;pool5&#39;: 30}
+
+selected_layer = pooling_layer[&#39;pool1&#39;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;selected_layer
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;image-preprocessing&#34;&gt;Image preprocessing&lt;/h3&gt;
+&lt;p&gt;Here, we define the function that can normailize the input images.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# define preprocess parameters
+# mini-batches of 3-channel RGB images of shape (3 x H x W)
+preprocess = transforms.Compose([
+    transforms.Resize(224),
+    transforms.CenterCrop(224),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+])
+
+def image_preprocess(img):
+    &amp;quot;&amp;quot;&amp;quot;
+    Preprocess the image and create the tensor
+    &amp;quot;&amp;quot;&amp;quot;
+    im = Image.fromarray(img)
+    input_tensor = preprocess(im) # create tensor
+    input_batch = input_tensor.unsqueeze(0)# create a mini-batch as expected by the model
+    return input_batch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;feature-extraction&#34;&gt;Feature extraction&lt;/h3&gt;
+&lt;p&gt;Here, we define the function that can extract features at a centain layer&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;def feature_extract(tensor, selected_layer):
+    for index,layer in enumerate(pretrained_model):
+#         print(index, layer)
+        tensor = layer(tensor)
+        if (index == selected_layer):
+            return tensor
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;read-in-and-preprocess-pictures&#34;&gt;Read in and preprocess pictures&lt;/h3&gt;
+&lt;p&gt;We are going to use 200 pictures from the stimuli set as an example. We flatten all the feature for each image in order to calculate distance between image features/ use t-SNE&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;features = []
+pic_number = 200
+for iImage in range(pic_number):
+    img = sti_array[iImage,:,:,:]
+    input_batch = image_preprocess(img)
+    current_features = np.squeeze(feature_extract(input_batch, selected_layer).data.numpy())
+#     print(current_features.shape)
+    features.append(np.concatenate(current_features, axis=None))
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;features = np.array(features)
+features.shape
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;(200, 802816)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Since we are using the pooling layer, the feature numbers aren&amp;rsquo;t crazily large. We can skip the following steps for PCA.
+If you are extracting features from convolutional layers, PCA would be very helpful.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# from sklearn.decomposition import PCA
+
+# 
+# pca = PCA(n_components=1000)
+# pca.fit(features)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# pca_features = pca.transform(features)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;t-sne-visualization&#34;&gt;t-SNE visualization&lt;/h3&gt;
+&lt;p&gt;Here, we are just using some default hyperparameters for t-SNE for a simple visualization. You can try to tune the hyperparameters if you like.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from sklearn.manifold import TSNE
+images = sti_array[0:pic_number,:,:,:]
+features = np.array(features)
+tsne = TSNE(n_components=2, learning_rate=150, perplexity=30, angle=0.2, verbose=2).fit_transform(features)
+tx, ty = tsne[:,0], tsne[:,1]
+tx = (tx-np.min(tx)) / (np.max(tx) - np.min(tx))
+ty = (ty-np.min(ty)) / (np.max(ty) - np.min(ty))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;[t-SNE] Computing 91 nearest neighbors...
+[t-SNE] Indexed 200 samples in 4.441s...
+[t-SNE] Computed neighbors for 200 samples in 45.717s...
+[t-SNE] Computed conditional probabilities for sample 200 / 200
+[t-SNE] Mean sigma: 321.907110
+[t-SNE] Computed conditional probabilities in 0.021s
+[t-SNE] Iteration 50: error = 110.1199646, gradient norm = 0.3914785 (50 iterations in 0.065s)
+[t-SNE] Iteration 100: error = 119.6677475, gradient norm = 0.2513522 (50 iterations in 0.065s)
+[t-SNE] Iteration 150: error = 120.5060120, gradient norm = 0.2420261 (50 iterations in 0.063s)
+[t-SNE] Iteration 200: error = 117.5590820, gradient norm = 0.4199304 (50 iterations in 0.063s)
+[t-SNE] Iteration 250: error = 122.9965286, gradient norm = 0.2279717 (50 iterations in 0.060s)
+[t-SNE] KL divergence after 250 iterations with early exaggeration: 122.996529
+[t-SNE] Iteration 300: error = 2.4189911, gradient norm = 0.0285375 (50 iterations in 0.060s)
+[t-SNE] Iteration 350: error = 1.8055801, gradient norm = 0.0019180 (50 iterations in 0.062s)
+[t-SNE] Iteration 400: error = 1.6958097, gradient norm = 0.0008569 (50 iterations in 0.062s)
+[t-SNE] Iteration 450: error = 1.6566454, gradient norm = 0.0006347 (50 iterations in 0.061s)
+[t-SNE] Iteration 500: error = 1.6307240, gradient norm = 0.0004043 (50 iterations in 0.061s)
+[t-SNE] Iteration 550: error = 1.6122439, gradient norm = 0.0003583 (50 iterations in 0.060s)
+[t-SNE] Iteration 600: error = 1.5946932, gradient norm = 0.0002276 (50 iterations in 0.059s)
+[t-SNE] Iteration 650: error = 1.5851456, gradient norm = 0.0002688 (50 iterations in 0.057s)
+[t-SNE] Iteration 700: error = 1.5735952, gradient norm = 0.0011064 (50 iterations in 0.057s)
+[t-SNE] Iteration 750: error = 1.5616177, gradient norm = 0.0003782 (50 iterations in 0.057s)
+[t-SNE] Iteration 800: error = 1.5549071, gradient norm = 0.0001757 (50 iterations in 0.058s)
+[t-SNE] Iteration 850: error = 1.5460689, gradient norm = 0.0002423 (50 iterations in 0.057s)
+[t-SNE] Iteration 900: error = 1.5415170, gradient norm = 0.0001737 (50 iterations in 0.057s)
+[t-SNE] Iteration 950: error = 1.5383173, gradient norm = 0.0000928 (50 iterations in 0.057s)
+[t-SNE] Iteration 1000: error = 1.5367311, gradient norm = 0.0000665 (50 iterations in 0.059s)
+[t-SNE] KL divergence after 1000 iterations: 1.536731
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from matplotlib.pyplot import imshow
+import matplotlib
+width = 4000
+height = 3000
+max_dim = 100
+
+full_image = Image.new(&#39;RGBA&#39;, (width, height))
+for img, x, y in zip(images, tx, ty):
+    tile = Image.fromarray(img)
+    rs = max(1, tile.width/max_dim, tile.height/max_dim)
+    tile = tile.resize((int(tile.width/rs), int(tile.height/rs)), Image.ANTIALIAS)
+    full_image.paste(tile, (int((width-max_dim)*x), int((height-max_dim)*y)), mask=tile.convert(&#39;RGBA&#39;))
+
+matplotlib.pyplot.figure(figsize = (16,12))
+imshow(full_image)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;matplotlib.image.AxesImage at 0x2aab23e3dcf8&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./Conv_extract_22_1.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;You can see clear color and shape clusters in the visualization. This makes sense since the pooling layer 1 is at a very early stage, which caputres relatively low level features of the images.&lt;/p&gt;
+&lt;p&gt;In below, the visulation based on pooling layer 5 is presented.
+You can clearly see some semantic category clusters, like bears and bananas.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;Image(filename=&#39;samples/pool5_600pics_try2.png&#39;) 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./Conv_extract_25_0.png&#34; alt=&#34;png&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;reference&#34;&gt;Reference&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/utkuozbulak/pytorch-cnn-visualizations&#34;&gt;https://github.com/utkuozbulak/pytorch-cnn-visualizations&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://nextjournal.com/ml4a/image-t-sne&#34;&gt;https://nextjournal.com/ml4a/image-t-sne&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Books/video courses recommendation for data science related coding/machine learning/stats</title>
+      <link>/post/ref-data-science/</link>
+      <pubDate>Fri, 02 Oct 2020 21:30:53 -0800</pubDate>
+      <guid>/post/ref-data-science/</guid>
+      <description>&lt;p&gt;Although the theory basis of my major, cognitive neuroscience, is based on psychology and biology, the skills I need to tackle with the research work of this field are most data science related. Since programming languages and data related techniques are  developing with dramatically speed, staying tuned and keeping studying is a must.&lt;/p&gt;
+&lt;p&gt;Here I want to list some books/course videos that I found super helpful along my learning path.&lt;/p&gt;
+&lt;h2 id=&#34;python&#34;&gt;Python&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://greenteapress.com/wp/think-python-2e/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Think Python&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;I learned Python from beginning with this book.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.oreilly.com/library/view/fluent-python/9781491946237/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Fluent Python&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;I learned many advanced skills in python from this book. Python has so many fancy functions/tricks that can be easily missed. This book help improving your codes in a more elegant and efficient way.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.oreilly.com/library/view/python-cookbook-3rd/9781449357337/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Python Cookbook&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;A book with many random skills and tricks.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://jakevdp.github.io/PythonDataScienceHandbook/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Python Data Science Handbook&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Learned Numpy, Pandas, Scikit-learn with this book.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;r&#34;&gt;R&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://r4ds.had.co.nz&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;R for Data Science&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Everything you need to know about tidyverse is here.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://adv-r.hadley.nz&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Advanced R&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Programming skills with R.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://r-graphics.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;R Graphics Cookbook&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Fantastic book for ggplot2 lovers.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://r-pkgs.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;R Packages&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Built my first R package with this awesome book.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://bookdown.org/yihui/blogdown/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;blogdown: Creating Websites with R Markdown&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Interested in building a website like this one you are looking at? Check out this book.&lt;/li&gt;
+&lt;li&gt;I also found &lt;a href=&#34;https://bookdown.org&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Bookdown&lt;/a&gt; and &lt;a href=&#34;https://pagedown.rbind.io&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pagedown&lt;/a&gt; are so helpful.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;machine-learning&#34;&gt;Machine learning&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://cs229.stanford.edu&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CS229: Machine Learning&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;This machine learning is provided by Andrew Ng from Stanford. Course videos can be found via Youtube. Very comprehensive introduction to the basic knowledge of machine learning.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://cs231n.stanford.edu&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CS231n: Convolutional Neural Networks for Visual Recognition&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;As the course title implicates, this course is focused on how to apply CNN. In general it is quite straight forward if you have a solid knowledge base from CS229. Course videos can also be found via Youtube.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.deeplearning.ai&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;deeplearning.ai&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;Andrew Ng also provides a series of advance deep learning course via Coursera.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.statlearning.com&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;An Introduction to Statistical Learning&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;I read this book while taking the machine learning course for my &lt;a href=&#34;https://github.com/uo-datasci-specialization/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Data Science Specialization&lt;/a&gt; at the University of Oregon. Very detailed and clear explanation for both the stats and coding of statistical learning.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://web.stanford.edu/~hastie/ElemStatLearn/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;The Elements of Statistical Learning: Data Mining, Inference, and Prediction&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;More advanced comparing with the previous one.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;misc&#34;&gt;Misc&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Intro to &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/CSS_basics&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CSS&lt;/a&gt; and &lt;a href=&#34;https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/HTML_basics&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;HTML&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;A practical video tutorial for Illustrator &lt;a href=&#34;https://www.youtube.com/playlist?list=PLnLzAhQDUqEC_yMyn_QvMzUgGykJkvI0F&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Adobe Illustrator Tutorials&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://git-scm.com/book/en/v2&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Pro Git&lt;/a&gt; something about version control&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.oreilly.com/library/view/unix-and-linux/9780133793871/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Unix and Linux Visual QuickStart Guide&lt;/a&gt; learning a bit unix will even change your experience with your pc.&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.youtube.com/c/mumfordbrainstats&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Mumford Brain Stats&lt;/a&gt; Stats knowledge in neuroscience area.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

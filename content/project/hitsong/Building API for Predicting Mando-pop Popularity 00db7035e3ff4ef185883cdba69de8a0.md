@@ -1,56 +1,4 @@
----
-# Documentation: https://wowchemy.com/docs/managing-content/
-
-title: "Building API for Predicting Mando-pop Popularity"
-summary: "We build an API for predicting the popularity of Mandopop/C-pop song. You can simply upload a song, and the model will tell you the estimated popularity of it. The model is based on 1. an inception CNN which takes mel-spectrogram of the song as input and 2. a fully-connected DNN which takes auto-tagging information as input."
-authors: []
-tags: 
-tags:
-- Big data
-- Python
-- Neural network
-- Machine learning
-categories: []
-date: 2021-08-22T00:00:52-07:00
-
-# Optional external URL for project (replaces project detail page).
-external_link: ""
-
-# Featured image
-# To use, add an image named `featured.jpg/png` to your page's folder.
-# Focal points: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight.
-image:
-  caption: ""
-  focal_point: ""
-  preview_only: true
-
-# Custom links (optional).
-#   Uncomment and edit lines below to show custom links.
-links:
-# - name: Follow
-#   url: https://twitter.com
-#   icon_pack: fab
-#   icon: twitter
-- name: Code (model)
-  url: https://github.com/Irisfee/spotify_analysis
-  icon_pack: fab
-  icon: github
-- name: Code (API)
-  url: https://github.com/Irisfee/popularity_predict_api
-  icon_pack: fab
-  icon: github
-url_code: ""
-url_pdf: ""
-url_slides: ""
-url_video: ""
-
-# Slides (optional).
-#   Associate this project with Markdown slides.
-#   Simply enter your slide deck's filename without extension.
-#   E.g. `slides = "example-slides"` references `content/slides/example-slides.md`.
-#   Otherwise, set `slides = ""`.
-slides: ""
----
+# Building API for Predicting Mando-pop Popularity
 
 Authors: Yufei Zhao, Peeta Li
 
@@ -69,7 +17,8 @@ Authors: Yufei Zhao, Peeta Li
 
 - We accomplished this through the pipeline shown below. We will debrief each step of the pipeline in sections down below.
 
-<img src="Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/Screen_Shot_2021-08-22_at_7.53.07_PM.png" alt="drawing" width="1000"/>
+![Screen Shot 2021-08-22 at 7.53.07 PM.png](Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/Screen_Shot_2021-08-22_at_7.53.07_PM.png)
+
 ## 2. Get-ready: explore data, benchmark baseline model
 
 ### Query data with Spotify API
@@ -102,7 +51,7 @@ Authors: Yufei Zhao, Peeta Li
 
 - Using the preview-URLs queried using Spotify API, we web-scraped the preview-mp3 (~30s long) from those URLs.
 
-<img src="Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/Screen_Shot_2021-08-22_at_7.18.06_PM.png" alt="drawing" width="700"/>
+![Screen Shot 2021-08-22 at 7.18.06 PM.png](Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/Screen_Shot_2021-08-22_at_7.18.06_PM.png)
 
 ### Extract mel spectrogram
 
@@ -115,9 +64,9 @@ Authors: Yufei Zhao, Peeta Li
 - Using a pre-trained CNN model described [here](http://mac.citi.sinica.edu.tw/~yang/pub/liu16mm.pdf). We computed the music tag loading for each mp3 clips. These music tag loadings will be part of the input to our final model, along with the mel spectrogram.
 - Below are the structure of this auto-tagging CNN and a sample result for a mp3 clip's tag loadings.
 
-<img src="Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/Screen_Shot_2021-08-22_at_7.48.57_PM.png" alt="drawing" width="600"/>
-<img src="Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/tag.png" alt="drawing" width="700"/>
+![Screen Shot 2021-08-22 at 7.48.57 PM.png](Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/Screen_Shot_2021-08-22_at_7.48.57_PM.png)
 
+![tag.png](Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/tag.png)
 
 ### Model training and testing
 
@@ -126,7 +75,7 @@ Authors: Yufei Zhao, Peeta Li
 - We took a weighted averaged of the two prediction score and yielded the final popularity prediction score.
 - We trained the model for 10 epochs before the validation loss started to increase.
 
-<img src="Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/Screen_Shot_2021-08-22_at_7.53.50_PM.png" alt="drawing" width="1000"/>
+![Screen Shot 2021-08-22 at 7.53.50 PM.png](Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/Screen_Shot_2021-08-22_at_7.53.50_PM.png)
 
 ### Model performance
 
@@ -137,9 +86,10 @@ Authors: Yufei Zhao, Peeta Li
 - We wrapped up our model and developed a REST API using FLASK, which yields the gif demo presented at the start of this post.
 - After loading the mp3 clip, our API will produce two estimated scores: 1) the predicted Spotify popularity score, 2) the percentile of popularity among all Mando-pop songs on Spotify.
 - The detail usage of the API and the codes can be found [here](https://github.com/Irisfee/popularity_predict_api).
-<img src="Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/Screen_Shot_2021-08-22_at_7.55.06_PM.png" alt="drawing" width="700"/>
 
-## Reference
+![Screen Shot 2021-08-22 at 7.55.06 PM.png](Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/Screen_Shot_2021-08-22_at_7.55.06_PM.png)
+
+# Reference
 
 [1] Yu, L. C., Yang, Y. H., Hung, Y. N., & Chen, Y. A. (2017). Hit song prediction for pop music by siamese cnn with ranking loss. arXiv preprint arXiv:1710.10814. [repo](https://github.com/OckhamsRazor/HSP_CNN)
 

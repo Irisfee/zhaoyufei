@@ -45,8 +45,9 @@ superuser: true
 title: Yufei Zhao
 ---
 
-I am a PhD candidate in Cognitive Neuroscience at University of Oregon. My research work is focused on using human fMRI to explain the cognitive mechanism underlying human episodic memory and using machine learning techniques to predict human memory behavior. 
+I am a PhD candidate in cognitive neuroscience at University of Oregon. I apply machine learning techniques to analyze brain imaging data to investigate human episodic memory mechanism and predict memory behavior. Along my doctoral training, I find my enthusiasm in solving problems using both structured and unstructured data, inferring from both classic and state-of-art algorithms, and communicating stories and insights derived from the data in business settings. 
 
+Detail information about my projects can be found [here]({{< relref "/project_landing" >}}).
 
 
 

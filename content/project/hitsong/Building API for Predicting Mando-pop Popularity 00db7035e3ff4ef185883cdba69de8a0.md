@@ -11,13 +11,14 @@ Authors: Yufei Zhao, Peeta Li
 
 ### The Solution
 
-- We adopted the structures of an [inception convolutional neural network (CNN) hit song prediction model](https://arxiv.org/pdf/1710.10814.pdf) that takes audio features (i.e., Mel Spectrogram) as input for popularity prediction. More of the model details can be found [here](). We then trained our model with all Mando-pop songs scrapped from the preview MP3 URL obtained with [Spotify API](https://developer.spotify.com/). For the implementation of our trained model, we developed a REST API using FLASK to make our model easily accessible (as shown below). Our trained model can be found [here](https://github.com/Irisfee/spotify_analysis) and our API can be accessed [here](https://github.com/Irisfee/popularity_predict_api).
+- We adopted the structures of an [inception convolutional neural network (CNN) hit song prediction model](https://arxiv.org/pdf/1710.10814.pdf) that takes audio features (i.e., Mel Spectrogram) as input for popularity prediction. We then trained our model with all Mando-pop songs scrapped from the preview MP3 URL obtained with [Spotify API](https://developer.spotify.com/). For the implementation of our trained model, we developed a REST API using FLASK to make our model easily accessible (as shown below). Our trained model can be found [here](https://github.com/Irisfee/spotify_analysis) and our API can be accessed [here](https://github.com/Irisfee/popularity_predict_api).
 
 ![demo.gif](Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/demo.gif)
 
 - We accomplished this through the pipeline shown below. We will debrief each step of the pipeline in sections down below.
 
 ![Screen Shot 2021-08-22 at 7.53.07 PM.png](Building%20API%20for%20Predicting%20Mando-pop%20Popularity%2000db7035e3ff4ef185883cdba69de8a0/Screen_Shot_2021-08-22_at_7.53.07_PM.png)
+
 
 ## 2. Get-ready: explore data, benchmark baseline model
 

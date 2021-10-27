@@ -15,7 +15,7 @@ education:
     institution: Beijing Normal University
     year: 2013 - 2017
     
-email: yzhao17@uoregon.edu
+email: yufeizhao13@gmail.com
 highlight_name: false
 interests:
 - Data science
@@ -28,7 +28,7 @@ role: PhD Candidate
 social:
 - icon: envelope
   icon_pack: fas
-  link: mailto:yzhao17@uoregon.edu
+  link: mailto:yufeizhao13@gmail.com
 - icon: twitter
   icon_pack: fab
   link: https://twitter.com/_zhaoyufei

@@ -5,7 +5,7 @@ widget: accomplishments
 
 # This file represents a page section.
 headless: true
-active: false
+active: true
 # Order that this section appears on the page.
 weight: 50
 
@@ -23,28 +23,28 @@ date_format: Jan 2006
 #   Leave other parameters empty if not required.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 item:
-- certificate_url: https://www.coursera.org
+- certificate_url: https://www.coursera.org/account/accomplishments/specialization/certificate/VSTEP4H2ZFE4
   date_end: ""
-  date_start: "2018-10-01"
-  description: ""
+  date_start: "2022-02-01"
+  description: "Five courses sequence; Artificial Neural Network, Convolutional Neural Network, Tensorflow, Recurrent Neural Network, Transformers"
   organization: Coursera
   organization_url: https://www.coursera.org
-  title: Neural Networks and Deep Learning
-  url: ""
-- certificate_url: https://www.edx.org
+  title: Deep Learning Specialization
+  url: https://www.coursera.org/specializations/deep-learning
+- certificate_url: https://www.coursera.org/account/accomplishments/specialization/certificate/LYKWC8RRF7M4
   date_end: ""
-  date_start: "2018-03-01"
-  description: Formulated informed blockchain models, hypotheses, and use cases.
-  organization: edX
-  organization_url: https://www.edx.org
-  title: Blockchain Fundamentals
-  url: https://www.edx.org/professional-certificate/uc-berkeleyx-blockchain-fundamentals
-- certificate_url: https://www.datacamp.com
-  date_end: "2017-12-21"
-  date_start: "2017-07-01"
-  description: ""
-  organization: DataCamp
-  organization_url: https://www.datacamp.com
-  title: 'Object-Oriented Programming in R: S3 and R6 Course'
-  url: ""
+  date_start: "2022-01-01"
+  description: Four courses sequence; Managing Machine Learning Production Systems, Deployment Pipelines, Model Pipelines, Data Pipelines
+  organization: Coursera
+  organization_url: https://www.coursera.org
+  title: Machine Learning Engineering for Production (MLOps) Specialization
+  url: https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops
+- certificate_url: https://www.coursera.org/account/accomplishments/certificate/RBU7554AQ7BV
+  date_end: ""
+  date_start: "2021-04-01"
+  description: "Machine Learning (ML) Algorithms"
+  organization: Coursera
+  organization_url: https://www.coursera.org
+  title: 'Machine Learning'
+  url: https://www.coursera.org/learn/machine-learning
 ---

@@ -31,6 +31,14 @@ item:
   organization_url: https://www.coursera.org
   title: Deep Learning Specialization
   url: https://www.coursera.org/specializations/deep-learning
+- certificate_url: https://www.coursera.org/account/accomplishments/specialization/certificate/4LDAH3PJTXE2
+  date_end: ""
+  date_start: "2022-03-01"
+  description: "Four courses sequence; Parts-of-Speech Tagging; Sentiment Analysis, Attention Models, Transformers"
+  organization: Coursera
+  organization_url: https://www.coursera.org
+  title: Natural Language Processing Specialization
+  url: https://www.coursera.org/specializations/natural-language-processing
 - certificate_url: https://www.coursera.org/account/accomplishments/specialization/certificate/LYKWC8RRF7M4
   date_end: ""
   date_start: "2022-01-01"

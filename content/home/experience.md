@@ -2,7 +2,7 @@
 # An instance of the Experience widget.
 # Documentation: https://wowchemy.com/docs/page-builder/
 widget: experience
-active: false 
+active: true
 # This file represents a page section.
 headless: true
 
@@ -22,24 +22,15 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
-  - title: CEO
-    company: GenCoin
+  - title: Data scientist intern
+    company: Intuit
     company_url: ''
-    location: California
-    date_start: '2017-01-01'
-    date_end: ''
+    location: Mountain view, CA
+    date_start: '2022-06-14'
+    date_end: '2022-09-02'
     description: |2-
-        Responsibilities include:
-        
-        * Analysing
-        * Modelling
-        * Deploying
-        
-  - title: Professor
-    company: University X
-    company_url: ''
-    location: California
-    date_start: '2016-01-01'
-    date_end: '2016-12-31'
-    description: Taught electronic engineering and researched semiconductor physics.
+        - Built end‑to‑end pipeline for quickbooks semantic search with linguistic features and customized word2vec embeddings (baseline model; covered top 1 use case).
+        - Reviewed 20+ papers on spoken language understanding & query intent understanding; Partnered with product team to synthesize labeled data.
+        - Applied transfer learning with BERT base and customized top layers for joint intent detect and slot filling; covered all use case.
+    
 ---

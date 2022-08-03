@@ -23,6 +23,14 @@ date_format: Jan 2006
 #   Leave other parameters empty if not required.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 item:
+- certificate_url: https://www.coursera.org/account/accomplishments/specialization/certificate/ZH93FLB5AH6R
+  date_end: ""
+  date_start: "2022-04-01"
+  description: "Four courses sequence; Build and train neural networks with tensorflow and keras"
+  organization: Coursera
+  organization_url: https://www.coursera.org
+  title: DeepLearning.AI TensorFlow Developer Specialization
+  url: https://www.coursera.org/professional-certificates/tensorflow-in-practice
 - certificate_url: https://www.coursera.org/account/accomplishments/specialization/certificate/VSTEP4H2ZFE4
   date_end: ""
   date_start: "2022-02-01"

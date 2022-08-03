@@ -31,6 +31,6 @@ experience:
     description: |2-
         - Built end‑to‑end pipeline for quickbooks semantic search with linguistic features and customized word2vec embeddings (baseline model; covered top 1 use case).
         - Reviewed 20+ papers on spoken language understanding & query intent understanding; Partnered with product team to synthesize labeled data.
-        - Applied transfer learning with BERT base and customized top layers for joint intent detect and slot filling; covered all use case.
+        - Applied transfer learning with BERT base and customized top layers for joint intent detect and slot filling; covered all use cases.
     
 ---
